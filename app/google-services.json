@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1051174349500",
+    "project_id": "fir-form-b1a34",
+    "storage_bucket": "fir-form-b1a34.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1051174349500:android:64146c98e79f0d43aafeb9",
+        "android_client_info": {
+          "package_name": "com.example.layersdiseasedetection"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1051174349500-cfpbvsrmpigqpm946408ib5kv5ag93hi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBexCnBq5mbLE59yy1LOYXoVv_rrjWzBlM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1051174349500-cfpbvsrmpigqpm946408ib5kv5ag93hi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

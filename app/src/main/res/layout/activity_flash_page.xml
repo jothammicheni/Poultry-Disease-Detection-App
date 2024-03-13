@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    tools:context=".FlashPage">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textAlignment="center"
+
+        tools:ignore="MissingConstraints">
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:orientation="vertical"
+          android:layout_marginTop="40dp"
+          android:gravity="center"
+          >
+
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:textSize="40dp"
+              android:text="Welcome"
+              android:textStyle="bold"
+              android:textAlignment="center"
+              />
+
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:text="Your trusted Layer's disease detection helper"
+              android:textAlignment="center"
+              android:textSize="16dp"
+              android:gravity="center"
+             android:layout_marginTop="70dp"
+           />
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center"
+              >
+              <ImageView
+                  android:layout_width="200dp"
+                  android:layout_height="200dp"
+                  android:src="@mipmap/hen_image"
+                  android:layout_marginTop="40dp"
+                  />
+          </LinearLayout>
+
+          <Button
+              android:id="@+id/btnNavigateToLogin"
+              android:layout_width="200dp"
+              android:layout_height="70dp"
+              android:backgroundTint="@color/teal_200"
+            android:shadowColor="@color/teal_200"
+              android:focusable="true"
+              android:layout_marginTop="40dp"
+              android:text="Sign In"
+              android:textAlignment="center"
+              android:textColor="@color/black"
+              android:textStyle="bold"
+              android:shadowRadius="@integer/material_motion_duration_long_2"
+              />
+      </LinearLayout>
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
