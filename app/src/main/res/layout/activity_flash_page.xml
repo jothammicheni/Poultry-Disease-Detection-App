@@ -50,7 +50,7 @@
               <ImageView
                   android:layout_width="200dp"
                   android:layout_height="200dp"
-                  android:src="@mipmap/hen_image"
+                  android:src="@mipmap/hen_image_foreground"
                   android:layout_marginTop="40dp"
                   />
           </LinearLayout>

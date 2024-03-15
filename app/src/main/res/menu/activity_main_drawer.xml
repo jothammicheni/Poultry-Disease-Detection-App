@@ -1,18 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="navigation_view">
+    tools:showIn="navigation_view"
+    >
 
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
+            android:background="@drawable/menu_item_selector"
+            android:icon="@drawable/home_icon"
             android:title="Disease detection" />
 
         <item
             android:id="@+id/nav_feeds"
-            android:icon="@drawable/ic_menu_camera"
+            android:background="@drawable/menu_item_selector"
+            android:icon="@drawable/feeds_logo"
             android:title="Feed Formulation" />
+
+
+        <item
+            android:id="@+id/nav_profile"
+            android:background="@drawable/menu_item_selector"
+            android:icon="@drawable/profile_icon"
+            android:title="Edit profile" />
+        <item
+            android:id="@+id/nav_logout"
+            android:background="@drawable/menu_item_selector"
+            android:icon="@drawable/logout_icon"
+            android:title="Logout" />
+
 
     </group>
 </menu>

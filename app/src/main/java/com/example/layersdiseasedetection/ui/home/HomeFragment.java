@@ -1,8 +1,10 @@
 package com.example.layersdiseasedetection.ui.home;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.layersdiseasedetection.DisplayResults;
 import com.example.layersdiseasedetection.databinding.FragmentHomeBinding;
 import com.example.layersdiseasedetection.ml.Model;
 
@@ -80,21 +83,10 @@ public class HomeFragment extends Fragment {
 
 
 
-        btnUploadImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                uploadImage();
+        btnUploadImage.setOnClickListener(V->uploadImage());
 
-            }
-        });
-
-        btnPredict.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                predictResults();
-            }
-        });
-
+        btnPredict.setOnClickListener(V->predictResults());
+        IVimage.setOnClickListener(V->uploadImage());
 
         return root;
     }
@@ -136,10 +128,15 @@ public class HomeFragment extends Fragment {
                 // The prediction is confident enough; display the result
                 TVresults.setText("Predicted Class: " + predictedClass);
                 Toast.makeText(requireContext(), ""+confidence, Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(requireContext(), DisplayResults.class);
+                intent.putExtra("prediction", predictedClass);
+                startActivity(intent);
 
             } else {
                 // The prediction is not confident; reject the result
-                TVresults.setText("Image rejected - low confidence");
+                TVresults.setText("Image rejected- These implies that wrong or unclear image was detected or none of the diseases was detected");
+                btnUploadImage.setVisibility(View.VISIBLE);
+                btnPredict.setVisibility(View.GONE);
                 Toast.makeText(requireContext(), ""+confidence, Toast.LENGTH_SHORT).show();
             }
         } else {

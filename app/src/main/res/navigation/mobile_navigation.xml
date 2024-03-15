@@ -17,4 +17,16 @@
         android:label="Feed Formulation"
         tools:layout="@layout/fragment_feed__formulation" />
 
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.example.layersdiseasedetection.ui.Profile.ProfileFragment"
+        android:label="edit profile"
+        tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/nav_logout"
+        android:name="com.example.layersdiseasedetection.ui.Logout.LogoutFragment"
+        android:label="Logout"
+        tools:layout="@layout/fragment_logout" />
+
 </navigation>

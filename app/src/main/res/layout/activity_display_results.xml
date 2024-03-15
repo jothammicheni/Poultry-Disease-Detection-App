@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DisplayResults">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:background="@color/teal_200"
+
+                >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="viewStart"
+                    android:drawableStart="@drawable/back_icon"
+                    android:textStyle="bold"
+                    android:layout_weight="1"
+                    android:textSize="30sp"
+                    android:textColor="@color/white"
+                    android:layout_marginLeft="20dp"
+                    android:id="@+id/TVback"
+
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Logout"
+                    android:textAlignment="center"
+                    android:textSize="25sp"
+                    android:textColor="@color/white"
+                    android:layout_marginRight="20dp"
+
+                    android:id="@+id/TVLogout"
+                    />
+
+
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Good"
+                android:textAlignment="center"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:layout_marginTop="30dp"
+                android:textColor="@color/teal_200"
+                android:id="@+id/TVpredictionResults"
+                />
+
+
+
+<!--            Let dispalry the medicine and the medication name-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/grey"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+
+                    >
+                    <ImageView
+                        android:layout_width="180dp"
+                        android:layout_height="200dp"
+                        android:id="@+id/IVmedicationImage"
+                       android:src="@mipmap/testimage_foreground"
+                        />
+                       <TextView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:id="@+id/TVmedicationName"
+                           android:textSize="25sp"
+                           android:textColor="@color/black"
+                           android:textStyle="bold"
+                           android:layout_marginLeft="5dp"
+                           android:text="Detra tetra texon oxode"
+                           />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!--                Now let display the description-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/black"
+                android:layout_margin="5dp"/>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_marginLeft="5dp"
+                android:text="Drug description"
+                />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/TVmedicationDescription"
+                android:textSize="20sp"
+                android:layout_margin="10dp"
+                android:textColor="@color/black"
+                android:layout_marginLeft="5dp"
+                android:text="If the issue persists after checking these points, you may need to provide more specific details about your Firebase Storage configuration and the context in which the error occurs for further assistance."
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/TVdosages"
+                android:textSize="20sp"
+                android:layout_margin="10dp"
+                android:textColor="@color/purple_700"
+                android:textAlignment="center"
+                android:textStyle="italic"
+                android:layout_marginLeft="5dp"
+                android:text="Click here for dosage information"
+                />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+
+            </LinearLayout>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="Contact A vet"
+                android:backgroundTint="@color/teal_200"
+                android:textStyle="bold"
+                android:id="@+id/btnChatWithVet"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="20dp"
+
+                />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
