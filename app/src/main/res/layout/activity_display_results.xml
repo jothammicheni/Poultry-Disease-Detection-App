@@ -47,10 +47,10 @@
                     android:layout_height="wrap_content"
                     android:text="Logout"
                     android:textAlignment="center"
-                    android:textSize="25sp"
+                    android:textSize="20sp"
                     android:textColor="@color/white"
                     android:layout_marginRight="20dp"
-
+                    android:textStyle="bold"
                     android:id="@+id/TVLogout"
                     />
 
