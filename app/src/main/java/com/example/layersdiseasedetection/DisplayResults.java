@@ -6,12 +6,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.layersdiseasedetection.data.Medication;
 import com.example.layersdiseasedetection.data.MedicationDetails;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,101 +24,93 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 public class DisplayResults extends AppCompatActivity {
-    TextView TVpredictioResults, TVbackToPreviouspage,TVdosages,TVmedicinedescription,TVmedicationName;
+
+    TextView TVpredictionResults, TVmedicationName, TVmedicationDescription, TVdosages;
     Button btnChatWithVet;
-    ImageView IVmedicineImage;
+    ImageView IVmedicationImage;
+
+    DatabaseReference dataRef;
+    Integer results;
+    String disease;
     String url;
 
-    DatabaseReference  dataRef;
-
-    String disease;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_results);
 
-        TVpredictioResults=findViewById(R.id.TVpredictionResults);
-        TVbackToPreviouspage=findViewById(R.id.TVback);
-        TVdosages=findViewById(R.id.TVdosages);
-        btnChatWithVet=findViewById(R.id.btnChatWithVet);
-        IVmedicineImage=findViewById(R.id.IVmedicationImage);
-        TVmedicinedescription=findViewById(R.id.TVmedicationDescription);
-        TVmedicationName=findViewById(R.id.TVmedicationName);
-        Integer results=getIntent().getIntExtra("prediction",0);
+        TVpredictionResults = findViewById(R.id.TVpredictionResults);
+        TVmedicationName = findViewById(R.id.TVmedicationName);
+        TVmedicationDescription = findViewById(R.id.TVmedicationDescription);
+        TVdosages = findViewById(R.id.TVdosages);
+        btnChatWithVet = findViewById(R.id.btnChatWithVet);
+        IVmedicationImage = findViewById(R.id.IVmedicationImage);
 
+         results = getIntent().getIntExtra("prediction", 0);
 
-        dataRef= FirebaseDatabase.getInstance().getReference("medications");
+        dataRef = FirebaseDatabase.getInstance().getReference("medications");
 
-        if(results==0){
-            disease="Coccidiosis";
-            url="https://www.google.com";
-        }
-        if(results==1){
-            disease="Healthy";
-        }
-        if(results==2){
-            disease="Newcastle Virus disease";
-           url="https://www.w3schools.com/colors/colors_picker.asp";
-
-        }
-        if(results==3){
-            disease="Salmonella";
-            url="https://github.com/jothammicheni/Poultry-Disease-Detection-App";
-
+        if (results == 0) {
+            disease = "Coccidiosis";
+            url = "https://www.google.com";
+        } else if (results == 1) {
+            disease = "Healthy";
+        } else if (results == 2) {
+            disease = "Newcastle Virus disease";
+            url = "https://www.w3schools.com/colors/colors_picker.asp";
+        } else if (results == 3) {
+            disease = "Salmonella";
+            url = "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=7d5cc60e-7a16-48d7-854a-723dc1faddbf&type=display#:~:text=CHICKENS%20AND%20TURKEYS%E2%80%93%20If%20animals,drinking%20water%20and%20sulfonamide%20medication.";
         }
 
-        TVpredictioResults.setText(disease);
-       // TVpredictioResults.setText(String.valueOf(results));
-        Toast.makeText(this, "results"+results, Toast.LENGTH_SHORT).show();
+        TVpredictionResults.setText(disease);
 
-        TVbackToPreviouspage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent= new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-            }
-        });
+        TVdosages.setOnClickListener(view -> dosages());
 
-        TVdosages.setOnClickListener(V->dosages());
-
-//function to display the details
+        // Function to display the medication details
         displayDetails();
     }
 
+    public void dosages() {
+        if (!TextUtils.isEmpty(url)) {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(url));
+            startActivity(intent);
+        } else {
+            Toast.makeText(this, "No dosages available for this disease", Toast.LENGTH_SHORT).show();
+        }
+    }
 
-    public void dosages(){
-        Intent intent= new Intent(Intent.ACTION_VIEW);
-           intent.setData(Uri.parse(url));
-           startActivity(intent);
+    private void displayDetails() {
+        String drugName, drugDescription;
+           int drugImage;
+        Medication medication = new Medication();
+
+        if (results == 3) {
+
+            drugName = medication.getCoccodiocis()[0];
+            drugDescription = medication.getCoccodiocis()[1];
+
+                TVmedicationName.setText(drugName);
+                TVmedicationDescription.setText(drugDescription);
+                IVmedicationImage.setImageResource(R.mipmap.cocci_drug_foreground);
+
+                //
+
+
+
+        }
+        if (results == 2) {
+            drugName = medication.getNewcastle()[0];
+            drugDescription = medication.getNewcastle()[1];
+            TVmedicationName.setText(drugName);
+            TVmedicationDescription.setText(drugDescription);
+            IVmedicationImage.setImageResource(R.mipmap.testimage_foreground);
+
+        }
+    }
 
 
     }
 
-    public void displayDetails(){
 
-        dataRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot:snapshot.getChildren()){
-                    MedicationDetails medicationDetails=dataSnapshot.getValue(MedicationDetails.class);
-                    if(medicationDetails!=null  && medicationDetails.getMedicationName().equals(disease)){
-
-                        TVmedicinedescription.setText(medicationDetails.getMedicationDescription());
-                        TVmedicationName.setText(medicationDetails.getMedicationName());
-                        Picasso.get().load(medicationDetails.getImageUrl()).into(IVmedicineImage);
-
-                    }
-
-                }
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-    }
-}
