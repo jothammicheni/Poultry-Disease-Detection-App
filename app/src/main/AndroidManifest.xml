@@ -13,6 +13,14 @@
         android:theme="@style/Theme.LayersDiseaseDetection"
         tools:targetApi="31">
         <activity
+            android:name=".RegisterVet"
+            android:exported="false"
+            android:theme="@style/Theme.LayersDiseaseDetection.NoActionBar" />
+        <activity
+            android:name=".AdminPanel"
+            android:exported="false"
+            android:theme="@style/Theme.LayersDiseaseDetection.NoActionBar" />
+        <activity
             android:name=".AddMedication"
             android:exported="false" />
         <activity

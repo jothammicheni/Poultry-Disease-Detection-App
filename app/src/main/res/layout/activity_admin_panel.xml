@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AdminPanel">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+<!--   addig the top navigation bar-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp"
+            android:background="@color/teal_200"
+
+            >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAlignment="viewStart"
+                android:drawableStart="@drawable/back_icon"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:textSize="30sp"
+                android:textColor="@color/white"
+                android:layout_marginLeft="20dp"
+                android:id="@+id/TVback"
+
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Logout"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:layout_marginRight="20dp"
+                android:textStyle="bold"
+                android:id="@+id/TVLogout"
+                />
+
+
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="30dp"
+            android:orientation="vertical"
+            >
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:text="Register new farmer"
+                android:backgroundTint="@color/teal_200"
+                android:textStyle="bold"
+                android:drawableStart="@drawable/add_icon"
+                android:id="@+id/btnRegisterFarmer"
+
+                />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:text="Register new VET"
+                android:backgroundTint="@color/teal_200"
+                android:textStyle="bold"
+                android:id="@+id/btnRegisterVet"
+                android:drawableStart="@drawable/add_icon"
+
+                />
+
+            <Button
+                android:id="@+id/btnUpdateusers"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:backgroundTint="@color/teal_200"
+                android:drawableStart="@drawable/update_icon"
+                android:text="Update the users"
+                android:textStyle="bold"
+
+                />
+
+
+
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

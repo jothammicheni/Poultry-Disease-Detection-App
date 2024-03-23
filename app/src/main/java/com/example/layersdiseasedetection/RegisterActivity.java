@@ -28,7 +28,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
-  TextView tvbackTologin;
+  TextView TVback,TVlogout;
+
   EditText editName,editEmail,editPassword,editPhone;
   Button btnRegister;
     ProgressBar PBprogress;
@@ -45,7 +46,8 @@ public class RegisterActivity extends AppCompatActivity {
 
         //define the views
         btnRegister=findViewById(R.id.btnSignUp);
-        tvbackTologin=findViewById(R.id.TVbackTologin);
+        TVback=findViewById(R.id.TVback);
+        TVlogout=findViewById(R.id.TVLogout);
         spinnerCategory=findViewById(R.id.spinnerCategory);
         spinnerCounty=findViewById(R.id.spinnerCounty);
         editEmail=findViewById(R.id.editEmail);
@@ -82,10 +84,20 @@ public class RegisterActivity extends AppCompatActivity {
 
 
 
-        tvbackTologin.setOnClickListener(new View.OnClickListener() {
+
+        // onclicklisteners
+        TVlogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(getApplicationContext(),LoginActivity.class);
+                Intent intent=new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+        //
+        TVback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getApplicationContext(), AdminPanel.class);
                 startActivity(intent);
             }
         });

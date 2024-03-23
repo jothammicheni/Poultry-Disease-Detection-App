@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterActivity">
+    tools:context=".RegisterVet">
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,55 +15,55 @@
         >
 
 
-    <!--   addig the top navigation bar-->
+        <!--   addig the top navigation bar-->
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal"
-        android:layout_marginBottom="10dp"
-        android:background="@color/teal_200"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp"
+            android:background="@color/teal_200"
 
-        >
+            >
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAlignment="viewStart"
-            android:drawableStart="@drawable/back_icon"
-            android:textStyle="bold"
-            android:layout_weight="1"
-            android:textSize="30sp"
-            android:textColor="@color/white"
-            android:layout_marginLeft="20dp"
-            android:id="@+id/TVback"
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAlignment="viewStart"
+                android:drawableStart="@drawable/back_icon"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:textSize="30sp"
+                android:textColor="@color/white"
+                android:layout_marginLeft="20dp"
+                android:id="@+id/TVback"
 
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Logout"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            android:textColor="@color/white"
-            android:layout_marginRight="20dp"
-            android:textStyle="bold"
-            android:id="@+id/TVLogout"
-            />
-
-
-
-    </LinearLayout>
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Logout"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:layout_marginRight="20dp"
+                android:textStyle="bold"
+                android:id="@+id/TVLogout"
+                />
 
 
-    <!--  Add edit texts      -->
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        >
+        </LinearLayout>
+
+
+        <!--  Add edit texts      -->
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:orientation="vertical"
+          android:gravity="center"
+          >
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -73,7 +74,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Register New Farmer"
+                android:text="Register New Vet"
                 android:textStyle="bold"
                 android:textSize="30sp"
                 android:textAlignment="center"
@@ -156,6 +157,7 @@
                     />
 
             </LinearLayout>
+
         </LinearLayout>
 
             <ProgressBar
@@ -169,4 +171,6 @@
         </LinearLayout>
 
     </LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

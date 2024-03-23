@@ -21,7 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class LoginActivity extends AppCompatActivity {
     TextView tvbackToRegister;
     EditText editEmail,editPassword;
-    Button btnLogin;
+    Button btnLoginAsFarmer,btnLoginAsVet;
     ProgressBar PBprogress;
 
     FirebaseAuth mAuth;
@@ -30,8 +30,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        tvbackToRegister=findViewById(R.id.TVbackToRegister);
-        btnLogin=findViewById(R.id.btnSignIn);
+        btnLoginAsVet=findViewById(R.id.btnSignInAsVet);
+        btnLoginAsFarmer=findViewById(R.id.btnSignInAsfarmer);
         editEmail=findViewById(R.id.editEmail);
         editPassword=findViewById(R.id.editPassword);
         PBprogress=findViewById(R.id.progress);
@@ -40,15 +40,16 @@ public class LoginActivity extends AppCompatActivity {
 
 
         mAuth=FirebaseAuth.getInstance();
-        tvbackToRegister.setOnClickListener(new View.OnClickListener() {
+        btnLoginAsVet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(getApplicationContext(), RegisterActivity.class);
+                Intent intent = new Intent(getApplicationContext(), AdminPanel.class);
                 startActivity(intent);
+              // loginVet();
             }
         });
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
+        btnLoginAsFarmer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                // loginUser();
@@ -57,6 +58,36 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    public void loginVet() {
+        String email = editEmail.getText().toString().trim();
+        String password = editPassword.getText().toString().trim();
+
+        if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            editEmail.setError("Enter a valid email");
+            editEmail.requestFocus();
+            return;
+        }
+
+        if (password.isEmpty()) {
+            editPassword.setError("Password can't be empty");
+            editPassword.requestFocus();
+            return;
+        }
+
+        if (password.length() < 6) {
+            editPassword.setError("Password should be at least 6 characters");
+            editPassword.requestFocus();
+            return;
+        }
+
+        if (email.equals("jothammurimi2001@gmail.com") && password.equals("123456")) {
+            Intent intent = new Intent(getApplicationContext(), AdminPanel.class);
+            startActivity(intent);
+        } else {
+            Toast.makeText(this, "Admin does not exist!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public  void loginUser(){
@@ -78,6 +109,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         PBprogress.setVisibility(View.VISIBLE);
+
 
 
         mAuth.signInWithEmailAndPassword(email,password)
