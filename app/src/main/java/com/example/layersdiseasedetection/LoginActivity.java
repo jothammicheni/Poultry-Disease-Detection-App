@@ -52,10 +52,10 @@ public class LoginActivity extends AppCompatActivity {
         btnLoginAsFarmer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // loginUser();
+                loginUser();
 
-                Intent intent=new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
+//                Intent intent=new Intent(getApplicationContext(), MainActivity.class);
+//                startActivity(intent);
             }
         });
     }
