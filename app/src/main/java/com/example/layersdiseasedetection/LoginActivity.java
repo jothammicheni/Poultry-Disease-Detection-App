@@ -52,10 +52,10 @@ public class LoginActivity extends AppCompatActivity {
         btnLoginAsFarmer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // loginUser();
+               loginUser();
 
-                Intent intent=new Intent(getApplicationContext(),ChatActivity.class);
-                startActivity(intent);
+//                Intent intent=new Intent(getApplicationContext(),ChatActivity.class);
+//                startActivity(intent);
             }
         });
     }
@@ -116,7 +116,7 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
-                        Intent intent =new Intent(getApplicationContext(), MainActivity.class);
+                        Intent intent=new Intent(getApplicationContext(),ChatActivity.class);
                         startActivity(intent);
                         PBprogress.setVisibility(View.GONE);
                         // Toast.makeText(LoginActivity.this, "User registered", Toast.LENGTH_SHORT).show();
