@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -31,7 +32,7 @@ import java.util.Map;
 public class ChatActivity extends AppCompatActivity {
 
     private EditText editTextMessage;
-    private Button buttonSend;
+    private ImageButton buttonSend;
     private RecyclerView recyclerView;
     private MessageAdapter messageAdapter;
     private FirebaseAuth mAuth;
@@ -42,7 +43,7 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        editTextMessage = findViewById(R.id.editTextMessage);
+        editTextMessage = findViewById(R.id.chatEditText);
         buttonSend = findViewById(R.id.btnSendMessage);
         recyclerView = findViewById(R.id.recyclerView);
 
@@ -60,11 +61,8 @@ public class ChatActivity extends AppCompatActivity {
         loadConversationMessages();
     }
 
-
-
     private void loadConversationMessages() {
         String currentUserUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
         // Retrieve the current user's category
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("userDetails").child(currentUserUid);
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -85,8 +83,12 @@ public class ChatActivity extends AppCompatActivity {
                                     for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                                         // Assuming there's only one user with the recipient category, you can directly get the email
                                         String recipientEmail = userSnapshot.child("useremail").getValue(String.class);
-                                        // Now, use the recipientEmail to load conversation messages
-                                        loadMessagesForConversation(recipientEmail);
+
+                                        // Sanitize the recipientEmail to remove invalid characters
+                                        String sanitizedRecipientEmail = sanitizeEmail(recipientEmail);
+
+                                        // Now, use the sanitizedRecipientEmail to load conversation messages
+                                        loadMessagesForConversation(sanitizedRecipientEmail);
                                     }
                                 }
 
@@ -104,6 +106,17 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
     }
+
+    // Method to sanitize email address for Firebase Database path
+    private String sanitizeEmail(String email) {
+        // Replace invalid characters with valid ones, such as '_'
+        return email.replace(".", "_")
+                .replace("#", "_")
+                .replace("$", "_")
+                .replace("[", "_")
+                .replace("]", "_");
+    }
+
 
     private void loadMessagesForConversation(String recipientEmail) {
         DatabaseReference conversationsRef = FirebaseDatabase.getInstance().getReference("conversations");
@@ -159,7 +172,7 @@ public class ChatActivity extends AppCompatActivity {
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                                         // Assuming there's only one user with the recipient category, you can directly get the email
-                                        String recipientEmail = userSnapshot.child("useremail").getValue(String.class);
+                                        String recipientEmail = userSnapshot.child("useremail").getValue(String.class).replace(".","_");
                                         // Now, send message to the conversation between sender and recipient
                                         sendMessageToConversation(senderName, recipientEmail);
                                     }

@@ -4,20 +4,37 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:id="@+id/LLChatHolder"
+    android:layout_margin="10dp"
+    >
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/LLMessageHolder"
+        android:background="@drawable/buttonbackgrouds"
+
+
+        >
 
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:visibility="gone"
+        />
 
     <TextView
         android:id="@+id/message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"
+        android:text="my name is jotham"
         android:textSize="16sp" />
 
     <TextView
@@ -25,6 +42,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"
+        android:visibility="gone"
         android:textSize="12sp" />
 
+</LinearLayout>
 </LinearLayout>
