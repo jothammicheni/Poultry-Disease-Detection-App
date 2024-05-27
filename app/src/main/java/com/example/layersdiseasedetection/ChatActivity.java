@@ -62,66 +62,11 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void loadConversationMessages() {
-        String currentUserUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        // Retrieve the current user's category
-        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("userDetails").child(currentUserUid);
-        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    String currentUserCategory = snapshot.child("userCategory").getValue(String.class);
-
-                    // Determine the recipient's category based on the current user's category
-                    String recipientCategory = currentUserCategory.equals("FARMER") ? "VET OFFICER" : "FARMER";
-
-                    // Query the user details to find a user with the recipient category
-                    DatabaseReference recipientRef = FirebaseDatabase.getInstance().getReference("userDetails");
-                    recipientRef.orderByChild("userCategory").equalTo(recipientCategory)
-                            .addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                                        // Assuming there's only one user with the recipient category, you can directly get the email
-                                        String recipientEmail = userSnapshot.child("useremail").getValue(String.class);
-
-                                        // Sanitize the recipientEmail to remove invalid characters
-                                        String sanitizedRecipientEmail = sanitizeEmail(recipientEmail);
-
-                                        // Now, use the sanitizedRecipientEmail to load conversation messages
-                                        loadMessagesForConversation(sanitizedRecipientEmail);
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-                                    Log.e("ChatApp", "Failed to retrieve recipient: " + databaseError.getMessage());
-                                }
-                            });
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("ChatApp", "Failed to retrieve user category: " + error.getMessage());
-            }
-        });
-    }
-
-    // Method to sanitize email address for Firebase Database path
-    private String sanitizeEmail(String email) {
-        // Replace invalid characters with valid ones, such as '_'
-        return email.replace(".", "_")
-                .replace("#", "_")
-                .replace("$", "_")
-                .replace("[", "_")
-                .replace("]", "_");
-    }
-
-
-    private void loadMessagesForConversation(String recipientEmail) {
         DatabaseReference conversationsRef = FirebaseDatabase.getInstance().getReference("conversations");
+        String recipientEmail= getIntent().getStringExtra("recipientEmail").replace(".", "_");;
 
-        String currentUserEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".", "_");
+        String currentUserEmail = mAuth.getCurrentUser().getEmail().replace(".", "_");
+
 
         // Ensure consistent order for conversationId
         String conversationId = currentUserEmail.compareTo(recipientEmail) < 0 ?
@@ -148,76 +93,59 @@ public class ChatActivity extends AppCompatActivity {
                 });
     }
 
+
+
     private void sendMessageToConversation() {
         DatabaseReference conversationsRef = FirebaseDatabase.getInstance().getReference("conversations");
-        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("userDetails");
+        DatabaseReference contactRef = FirebaseDatabase.getInstance().getReference("userDetails");
 
         String currentUserUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        // Retrieve sender name and category from the database
-        userRef.child(currentUserUid).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    String senderName = snapshot.child("username").getValue(String.class);
-                    String senderCategory = snapshot.child("userCategory").getValue(String.class);
+        // Retrieve sender name from the database
+        contactRef.child(currentUserUid)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            String senderName = snapshot.child("name").getValue(String.class);
 
-                    // Determine the recipient's category based on the sender's category
-                    String recipientCategory = senderCategory.equals("FARMER") ? "VET OFFICER" : "FARMER";
+                            //extract data from the intents
+                            Log.d("sender", "senderName: " + senderName);
 
-                    // Query the user details to find a user with the recipient category
-                    userRef.orderByChild("userCategory").equalTo(recipientCategory)
-                            .addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                                        // Assuming there's only one user with the recipient category, you can directly get the email
-                                        String recipientEmail = userSnapshot.child("useremail").getValue(String.class).replace(".","_");
-                                        // Now, send message to the conversation between sender and recipient
-                                        sendMessageToConversation(senderName, recipientEmail);
-                                    }
-                                }
+                            String recipientEmail = getIntent().getStringExtra("recipientEmail").replace(".", "_");
+                            String currentUserEmail = mAuth.getCurrentUser().getEmail().replace(".", "_");
 
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-                                    Log.e("ChatApp", "Failed to retrieve recipient: " + databaseError.getMessage());
-                                }
-                            });
-                }
-            }
+                            // Ensure consistent order for conversationId
+                            String conversationId = currentUserEmail.compareTo(recipientEmail) < 0 ?
+                                    currentUserEmail + "_" + recipientEmail : recipientEmail + "_" + currentUserEmail;
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("ChatApp", "Failed to retrieve sender details: " + error.getMessage());
-            }
-        });
-    }
+                            DatabaseReference messagesRef = conversationsRef.child(conversationId).child("messages");
 
-    private void sendMessageToConversation(String senderName, String recipientEmail) {
-        String currentUserEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".", "_");
+                            String message = editTextMessage.getText().toString();
+                            String sender = currentUserEmail;
+                            String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
 
-        // Ensure consistent order for conversationId
-        String conversationId = currentUserEmail.compareTo(recipientEmail) < 0 ?
-                currentUserEmail + "_" + recipientEmail : recipientEmail + "_" + currentUserEmail;
+                            Map<String, Object> messageData = new HashMap<>();
+                            messageData.put("sender", sender);
+                            messageData.put("recipientName", senderName); // Use senderName instead of getIntent().getStringExtra("name")
+                            messageData.put("message", message);
+                            messageData.put("timestamp", timestamp);
 
-        DatabaseReference messagesRef = FirebaseDatabase.getInstance().getReference("conversations").child(conversationId).child("messages");
+                            messagesRef.push().setValue(messageData)
+                                    .addOnSuccessListener(aVoid -> {
+                                        Log.d("ChatApp", "Message sent successfully");
+                                        // Clear the message input field after sending
+                                        editTextMessage.setText("");
+                                    })
+                                    .addOnFailureListener(e -> Log.e("ChatApp", "Error sending message: " + e.getMessage()));
+                        }
+                    }
 
-        String message = editTextMessage.getText().toString();
-        String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
-
-        Map<String, Object> messageData = new HashMap<>();
-        messageData.put("sender", currentUserEmail);
-        messageData.put("recipientName", senderName); // Use senderName instead of getIntent().getStringExtra("name")
-        messageData.put("message", message);
-        messageData.put("timestamp", timestamp);
-
-        messagesRef.push().setValue(messageData)
-                .addOnSuccessListener(aVoid -> {
-                    Log.d("ChatApp", "Message sent successfully");
-                    // Clear the message input field after sending
-                    editTextMessage.setText("");
-                })
-                .addOnFailureListener(e -> Log.e("ChatApp", "Error sending message: " + e.getMessage()));
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.e("ChatApp", "Failed to retrieve user details: " + error.getMessage());
+                    }
+                });
     }
 
 

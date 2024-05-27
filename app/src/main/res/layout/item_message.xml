@@ -55,5 +55,6 @@
         android:layout_height="70dp"
         android:background="@drawable/baseline_delete_24"
         android:id="@+id/btnDelChat"
+        android:visibility="gone"
         />
 </LinearLayout>

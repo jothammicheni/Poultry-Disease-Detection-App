@@ -1,16 +1,21 @@
 package com.example.layersdiseasedetection.data;
 
 public class UserDetails {
-    String username,useremail,userpassword,userphone;
+    String username;
+    String useremail;
+    String userpassword;
+    String userphone;
+    String userCategory; // Updated field name to follow camel case convention
 
     public UserDetails() {
     }
 
-    public UserDetails(String username, String useremail, String userpassword, String userphone) {
+    public UserDetails(String username, String useremail, String userpassword, String userphone, String userCategory) {
         this.username = username;
         this.useremail = useremail;
         this.userpassword = userpassword;
         this.userphone = userphone;
+        this.userCategory = userCategory;
     }
 
     public String getUsername() {
@@ -43,5 +48,13 @@ public class UserDetails {
 
     public void setUserphone(String userphone) {
         this.userphone = userphone;
+    }
+
+    public String getUserCategory() {
+        return userCategory;
+    }
+
+    public void setUserCategory(String userCategory) {
+        this.userCategory = userCategory;
     }
 }

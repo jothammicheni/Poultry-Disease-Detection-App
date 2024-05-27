@@ -1,6 +1,5 @@
 package com.example.layersdiseasedetection;
 
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,18 +11,29 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.layersdiseasedetection.R;
 import com.example.layersdiseasedetection.data.Message;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder> {
+
     private static List<Message> messageList;
-    private static FirebaseUser currentUser;
+    private FirebaseUser currentUser;
+    private OnSelectionChangeListener selectionChangeListener;
 
     public MessageAdapter(List<Message> messageList, FirebaseUser currentUser) {
         this.messageList = messageList;
         this.currentUser = currentUser;
+    }
+
+    public void setOnSelectionChangeListener(OnSelectionChangeListener listener) {
+        this.selectionChangeListener = listener;
+    }
+
+    public interface OnSelectionChangeListener {
+        void onSelectionChanged(boolean hasSelectedMessages);
     }
 
     static class MessageViewHolder extends RecyclerView.ViewHolder {
@@ -52,7 +62,20 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                             itemView.getResources().getColor(android.R.color.holo_red_dark) :
                             itemView.getResources().getColor(android.R.color.transparent));
                     messageHolderLayout.setBackgroundColor(itemView.getResources().getColor(android.R.color.holo_red_dark));
-                    return false;
+
+                    // Notify adapter's listener about selection change
+                    if (messageAdapter.selectionChangeListener != null) {
+                        boolean hasSelectedMessages = false;
+                        for (Message msg : messageList) {
+                            if (msg.isSelected()) {
+                                hasSelectedMessages = true;
+                                break;
+                            }
+                        }
+                        messageAdapter.selectionChangeListener.onSelectionChanged(hasSelectedMessages);
+                    }
+
+                    return true; // consume the long click
                 }
             });
 
@@ -64,7 +87,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             });
         }
 
-        public void bind(Message message) {
+        public void bind(Message message, FirebaseUser currentUser) {
             textViewMessage.setText(message.getMessage());
             textTimestamp.setText(message.getTimestamp());
 
@@ -94,8 +117,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     @Override
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
         Message message = messageList.get(position);
-        holder.bind(message);
-        Log.d("ChatApp", "Binding Message: " + message);
+        holder.bind(message, currentUser);
     }
 
     public void deleteSelectedMessages() {
@@ -105,6 +127,18 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             }
         }
         notifyDataSetChanged();
+
+        // Notify listener about selection change after deletion
+        if (selectionChangeListener != null) {
+            boolean hasSelectedMessages = false;
+            for (Message message : messageList) {
+                if (message.isSelected()) {
+                    hasSelectedMessages = true;
+                    break;
+                }
+            }
+            selectionChangeListener.onSelectionChanged(hasSelectedMessages);
+        }
     }
 
     @Override

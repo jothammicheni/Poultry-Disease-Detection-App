@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal"
+       android:background="@color/teal_200"
+       android:layout_marginBottom="20dp"
+       tools:ignore="MissingConstraints">
+
+      <LinearLayout
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          android:orientation="vertical"
+          android:background="@drawable/profile_background"
+          android:layout_margin="10dp" />
+
+      <LinearLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:orientation="vertical">
+
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:id="@+id/username"
+             android:textStyle="bold"
+             android:text="Jotham Murimi" />
+
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:id="@+id/TVemail"
+             android:textStyle="italic"
+             android:text="Jothammurimi@gmail.com" />
+
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:id="@+id/TVnumber"
+             android:text="0728930153" />
+
+      </LinearLayout>
+   </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
