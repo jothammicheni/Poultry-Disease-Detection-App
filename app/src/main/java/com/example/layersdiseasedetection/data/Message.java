@@ -20,6 +20,7 @@ package com.example.layersdiseasedetection.data;
         private String sender;
         private String recipientname;
         private String timestamp;  // Added timestamp field
+        private boolean selected;
         public Message() {
             // Default constructor required for Firebase
         }
@@ -58,6 +59,14 @@ package com.example.layersdiseasedetection.data;
 
         public String getRecipientname() {
             return recipientname;
+        }
+
+        public  boolean isSelected(){
+            return selected;
+        }
+
+        public void setSelected(boolean selected) {
+            this.selected = selected;
         }
     }
 

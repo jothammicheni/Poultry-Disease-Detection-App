@@ -13,6 +13,8 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
         android:orientation="horizontal"
         android:id="@+id/LLMessageHolder"
         android:background="@drawable/buttonbackgrouds"
@@ -45,5 +47,13 @@
         android:visibility="gone"
         android:textSize="12sp" />
 
+
+
 </LinearLayout>
+    <ImageButton
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@drawable/baseline_delete_24"
+        android:id="@+id/btnDelChat"
+        />
 </LinearLayout>
