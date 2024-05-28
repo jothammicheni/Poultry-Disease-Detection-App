@@ -1,7 +1,5 @@
 package com.example.layersdiseasedetection;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -19,7 +17,7 @@ import com.example.layersdiseasedetection.data.UserDetails;
 
 import java.util.List;
 
-public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHolder> {
+public class MainContactsAdapter extends RecyclerView.Adapter<MainContactsAdapter.ViewHolder> {
 
     private List<UserDetails> userList;
     private OnItemClickListener listener;
@@ -32,7 +30,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         this.listener = listener;
     }
 
-    public ContactsAdapter(List<UserDetails> userList) {
+    public MainContactsAdapter(List<UserDetails> userList) {
         this.userList = userList;
     }
 
@@ -50,8 +48,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         holder.BtnWhatssap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               holder.openWhatsAppChat(userDetails);
-
+                holder.openWhatsAppChat(userDetails);
             }
         });
     }
@@ -96,12 +93,8 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
                 String formattedNumber = userDetails.getUserphone().replaceFirst("0", "+254");
 
                 // Create the URI for WhatsApp
-               // String uri = "https://wa.me/" + formattedNumber;
                 String message = "Hello";
                 String uri = "https://wa.me/" + formattedNumber + "?text=" + Uri.encode(message);
-
-                //String uri = "https://api.whatsapp.com/send?phone=" + formattedNumber + "&text=" + Uri.encode(message);
-
 
                 // Create the intent
                 Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -110,16 +103,15 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
                 // Set the package to ensure the intent opens WhatsApp
                 intent.setPackage("com.whatsapp");
 
-                itemView.getContext().startActivity(intent);
                 // Verify that there is an app to receive the intent
                 if (itemView.getContext().getPackageManager().resolveActivity(intent, 0) != null) {
                     itemView.getContext().startActivity(intent);
                 } else {
-                   // Toast.makeText(itemView.getContext(), "WhatsApp not installed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(itemView.getContext(), "WhatsApp not installed", Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                //Toast.makeText(itemView.getContext(), "Error opening WhatsApp", Toast.LENGTH_SHORT).show();
+                Toast.makeText(itemView.getContext(), "Error opening WhatsApp", Toast.LENGTH_SHORT).show();
             }
         }
 

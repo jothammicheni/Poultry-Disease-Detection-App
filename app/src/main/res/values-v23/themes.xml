@@ -3,7 +3,7 @@
     <style name="Theme.LayersDiseaseDetection" parent="Base.Theme.LayersDiseaseDetection">
         <!-- Transparent system bars for edge-to-edge. -->
         <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@color/teal_200</item>
         <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
     </style>
 </resources>

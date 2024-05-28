@@ -23,6 +23,12 @@
             android:background="@drawable/menu_item_selector"
             android:icon="@drawable/profile_icon"
             android:title="Edit profile" />
+
+        <item
+            android:id="@+id/nav_chat"
+            android:background="@drawable/menu_item_selector"
+            android:icon="@drawable/whatssap_logo"
+            android:title="Chats" />
         <item
             android:id="@+id/nav_logout"
             android:background="@drawable/menu_item_selector"

@@ -69,6 +69,14 @@ public class DisplayResults extends AppCompatActivity {
 
         // Function to display the medication details
         displayDetails();
+
+        btnChatWithVet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(),DisplayUsers.class);
+                startActivity(intent);
+            }
+        });
     }
 
     public void dosages() {

@@ -116,7 +116,7 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
-                        Intent intent=new Intent(getApplicationContext(),DisplayUsers.class);
+                        Intent intent=new Intent(getApplicationContext(),MainActivity.class);
                         startActivity(intent);
                         PBprogress.setVisibility(View.GONE);
                         // Toast.makeText(LoginActivity.this, "User registered", Toast.LENGTH_SHORT).show();

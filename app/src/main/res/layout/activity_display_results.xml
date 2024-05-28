@@ -77,7 +77,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/grey"
                 android:layout_marginTop="20dp"
                 android:orientation="vertical"
                 >
@@ -143,7 +142,7 @@
                 android:id="@+id/TVdosages"
                 android:textSize="20sp"
                 android:layout_margin="10dp"
-                android:textColor="@color/purple_700"
+                android:textColor="@color/purple_500"
                 android:textAlignment="center"
                 android:text="view dosage instructions"
                 android:textStyle="italic"

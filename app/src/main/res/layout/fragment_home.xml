@@ -44,35 +44,47 @@
             android:textSize="15sp"
             android:textColor="@color/black"
             />
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    >
+    <ImageView
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:id="@+id/IVimage"
+        android:layout_margin="20dp"
+     android:background="@drawable/imagebackground"
+        />
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:id="@+id/IVimage"
-                android:layout_marginTop="20dp"
-                />
+    <Button
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:text="Upload Image"
+        android:backgroundTint="@color/teal_200"
+        android:layout_marginTop="30dp"
+        android:textStyle="bold"
+        android:id="@+id/btnUploadImage"
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:text="Upload Image"
-                android:backgroundTint="@color/teal_200"
-                android:layout_marginTop="20dp"
-                android:textStyle="bold"
-                android:id="@+id/btnUploadImage"
 
-                />
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:text="Predict"
-                android:backgroundTint="@color/teal_200"
-                android:textStyle="bold"
-                android:id="@+id/btnPredict"
-                android:visibility="gone"
-               
+        />
+    <Button
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:text="Predict"
+        android:backgroundTint="@color/teal_200"
+        android:textStyle="bold"
+        android:id="@+id/btnPredict"
+        android:layout_marginTop="30dp"
+        android:visibility="gone"
 
-                />
+
+        />
+
+</LinearLayout>
+
+
 
             <TextView
                 android:layout_width="match_parent"

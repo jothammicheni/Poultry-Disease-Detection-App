@@ -124,7 +124,7 @@ public class HomeFragment extends Fragment {
             int predictedClass = findMaxProbabilityClass(outputFeature0.getFloatArray());
             float confidence = outputFeature0.getFloatArray()[predictedClass];
 
-            if (confidence >= CONFIDENCE_THRESHOLD) {
+            if (confidence >= CONFIDENCE_THRESHOLD && predictedClass!=1) {
                 // The prediction is confident enough; display the result
                 TVresults.setText("Predicted Class: " + predictedClass);
                 Toast.makeText(requireContext(), ""+confidence, Toast.LENGTH_SHORT).show();
@@ -137,7 +137,7 @@ public class HomeFragment extends Fragment {
                 TVresults.setText("Image rejected- These implies that wrong or unclear image was detected or none of the diseases was detected");
                 btnUploadImage.setVisibility(View.VISIBLE);
                 btnPredict.setVisibility(View.GONE);
-                Toast.makeText(requireContext(), ""+confidence, Toast.LENGTH_SHORT).show();
+               // Toast.makeText(requireContext(), ""+confidence, Toast.LENGTH_SHORT).show();
             }
         } else {
             Toast.makeText(requireContext(), "No image selected", Toast.LENGTH_SHORT).show();
