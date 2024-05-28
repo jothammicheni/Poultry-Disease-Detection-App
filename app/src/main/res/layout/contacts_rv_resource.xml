@@ -4,46 +4,83 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-   <LinearLayout
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:orientation="horizontal"
-       android:background="@color/teal_200"
-       android:layout_marginBottom="20dp"
-       tools:ignore="MissingConstraints">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/white"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/horizontalLine2"
+        tools:ignore="MissingConstraints" />
 
-      <LinearLayout
-          android:layout_width="50dp"
-          android:layout_height="50dp"
-          android:orientation="vertical"
-          android:background="@drawable/profile_background"
-          android:layout_margin="10dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:backgroundTint="@color/white"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/topSpacer"
+        tools:ignore="MissingConstraints" />
 
-      <LinearLayout
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/displayusersbackground"
+        android:id="@+id/LLUserHolder"
+        android:layout_marginRight="10dp"
+        android:layout_below="@id/topSpacer"
+        tools:ignore="MissingConstraints">
 
-         <TextView
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:id="@+id/username"
-             android:textStyle="bold"
-             android:text="Jotham Murimi" />
+        <LinearLayout
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:orientation="vertical"
+            android:background="@drawable/profile_background"
+            android:layout_margin="10dp" />
 
-         <TextView
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:id="@+id/TVemail"
-             android:textStyle="italic"
-             android:text="Jothammurimi@gmail.com" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-         <TextView
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:id="@+id/TVnumber"
-             android:text="0728930153" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/username"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:text="Jotham Murimi" />
 
-      </LinearLayout>
-   </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/TVemail"
+                android:textStyle="italic"
+                android:textColor="@color/black"
+                android:text="Jothammurimi@gmail.com" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/TVnumber"
+                android:textColor="@color/black"
+                android:text="0728930153" />
+        </LinearLayout>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/white"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/horizontalLine"
+        android:layout_below="@id/LLUserHolder"
+        tools:ignore="MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>

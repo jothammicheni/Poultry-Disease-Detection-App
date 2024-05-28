@@ -3,6 +3,7 @@ package com.example.layersdiseasedetection;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -54,18 +55,29 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView textName,textEmail,textPhone;
+        private TextView textName, textEmail, textPhone;
+        private LinearLayout LLUserHolders;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             textName = itemView.findViewById(R.id.username);
-            textEmail=itemView.findViewById(R.id.TVemail);
-            textPhone=itemView.findViewById(R.id.TVnumber);
+            textEmail = itemView.findViewById(R.id.TVemail);
+            textPhone = itemView.findViewById(R.id.TVnumber);
+            LLUserHolders=itemView.findViewById(R.id.LLUserHolder);
+
+
+            // Ensure you are getting the correct layout parameters type
+            ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) LLUserHolders.getLayoutParams();
+            layoutParams.topMargin = 20; // margin in pixels
+            layoutParams.bottomMargin = 20;
+            layoutParams.leftMargin = 5;
+            layoutParams.rightMargin = 5; // Add right margin if needed
+
+            LLUserHolders.setLayoutParams(layoutParams);
         }
 
         public void bind(UserDetails userDetails) {
-
-            textName.setText(userDetails.getUsername() +"("+userDetails.getUserphone()+")");
+            textName.setText(userDetails.getUsername()+"("+userDetails.getUserphone()+")");
             textEmail.setText(userDetails.getUseremail());
           //  textPhone.setText(userDetails.getUserphone());
         }
