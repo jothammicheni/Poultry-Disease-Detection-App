@@ -4,18 +4,29 @@ public class UserDetails {
     String username;
     String useremail;
     String userpassword;
+
+    String userCity;
     String userphone;
     String userCategory; // Updated field name to follow camel case convention
 
     public UserDetails() {
     }
 
-    public UserDetails(String username, String useremail, String userpassword, String userphone, String userCategory) {
+    public String getUserCity() {
+        return userCity;
+    }
+
+    public void setUserCity(String userCity) {
+        this.userCity = userCity;
+    }
+
+    public UserDetails(String username, String useremail, String userpassword, String userphone, String userCategory, String userCity) {
         this.username = username;
         this.useremail = useremail;
         this.userpassword = userpassword;
         this.userphone = userphone;
         this.userCategory = userCategory;
+        this.userCity=userCity;
     }
 
     public String getUsername() {
@@ -57,4 +68,6 @@ public class UserDetails {
     public void setUserCategory(String userCategory) {
         this.userCategory = userCategory;
     }
+
+
 }

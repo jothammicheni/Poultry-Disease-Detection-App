@@ -76,7 +76,7 @@
 
                 >
                 <Button
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:text="FARMER/VET"
                     android:backgroundTint="@color/teal_200"
@@ -92,6 +92,7 @@
                     android:text="ADMIN"
                     android:backgroundTint="@color/teal_200"
                     android:textStyle="bold"
+                    android:visibility="gone"
                     android:id="@+id/btnSignInAsVet"
 
                     />

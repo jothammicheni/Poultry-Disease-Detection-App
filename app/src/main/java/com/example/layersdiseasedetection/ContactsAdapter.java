@@ -54,7 +54,20 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
 
             }
         });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), ChatActivity.class);
+                intent.putExtra("recipientEmail", userDetails.getUseremail());
+                v.getContext().startActivity(intent);
+            }
+        });
+
+
     }
+
+
 
     @Override
     public int getItemCount() {

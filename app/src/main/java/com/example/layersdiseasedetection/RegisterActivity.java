@@ -25,7 +25,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
-    EditText editName, editEmail, editPassword, editPhone;
+    EditText editName, editEmail, editPassword, editPhone,editCity;
     Button btnRegister;
     ProgressBar PBprogress;
     RadioButton radioFarmer, radioVetOfficer;
@@ -45,6 +45,7 @@ public class RegisterActivity extends AppCompatActivity {
         editPassword = findViewById(R.id.editPassword);
         editPhone = findViewById(R.id.editPhone);
         PBprogress = findViewById(R.id.progress);
+        editCity=findViewById(R.id.editCity);
         radioFarmer = findViewById(R.id.radioFarmer);
         radioVetOfficer = findViewById(R.id.radioVetOfficer);
 
@@ -61,8 +62,9 @@ public class RegisterActivity extends AppCompatActivity {
         String email = editEmail.getText().toString().trim();
         String phone = editPhone.getText().toString().trim();
         String password = editPassword.getText().toString().trim();
-        String userCategory = radioFarmer.isChecked() ? "Farmer" : "Veterinary Officer";
-
+        String city=editCity.getText().toString().trim();
+       // String userCategory = radioFarmer.isChecked() ? "Farmer" : "Veterinary Officer";
+        String userCategory="Farmer";
         // Validate phone number format
         String regex = "(07|01)\\d{8}";
         Pattern pattern = Pattern.compile(regex);
@@ -81,6 +83,11 @@ public class RegisterActivity extends AppCompatActivity {
         if (phone.isEmpty()) {
             editPhone.setError("Phone number can't be empty");
             editPhone.requestFocus();
+            return;
+        }
+        if (city.isEmpty()) {
+            editCity.setError("City can't be empty");
+            editCity.requestFocus();
             return;
         }
         if (phone.length() != 10 || !matcher.matches()) {
@@ -104,7 +111,7 @@ public class RegisterActivity extends AppCompatActivity {
                         // Successfully created user, now store user details in Firebase Realtime Database
                         String userId = mAuth.getCurrentUser().getUid();
                         DatabaseReference userRef = databaseReference.child(userId);
-                        UserDetails user = new UserDetails(username, email, password,phone, userCategory);
+                        UserDetails user = new UserDetails(username, email, password,phone, userCategory,city);
                         userRef.setValue(user)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
