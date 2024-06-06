@@ -25,7 +25,7 @@ public class FlashPage extends AppCompatActivity {
             @Override
             public void run() {
                 // Start the login activity
-                Intent loginIntent = new Intent(getApplicationContext(),LoginActivity.class);
+                Intent loginIntent = new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(loginIntent);
 
                 // Close this activity

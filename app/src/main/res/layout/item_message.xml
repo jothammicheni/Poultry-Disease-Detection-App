@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:padding="8dp"
         android:text="my name is jotham"
-        android:textSize="16sp" />
+        android:textSize="16sp"/>
 
     <TextView
         android:id="@+id/timestamp"

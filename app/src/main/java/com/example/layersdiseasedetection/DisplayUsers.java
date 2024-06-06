@@ -3,6 +3,7 @@ package com.example.layersdiseasedetection;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,18 +30,23 @@ public class DisplayUsers extends AppCompatActivity {
     private RecyclerView contactsRecyclerView;
     private DatabaseReference contactsRef;
     private ContactsAdapter contactsAdapter;
+
+    TextView TVbackIcon,TVlogout;
     private List<UserDetails> userList;
-    TextView TVDisplaycategory;
+    private TextView TVDisplaycategory;
 
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
     private String currentUserCategory;
+    private String currentUserCity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_users);
-        TVDisplaycategory=findViewById(R.id.TVcategoryDisplay);
+        TVDisplaycategory = findViewById(R.id.TVcategoryDisplay);
+        TVlogout=findViewById(R.id.TVLogout);
+        TVbackIcon=findViewById(R.id.TVback);
         initializeFirebase();
         setupRecyclerView();
 
@@ -71,6 +77,26 @@ public class DisplayUsers extends AppCompatActivity {
             intent.putExtra("recipientEmail", user.getUseremail());
             startActivity(intent);
         });
+
+
+
+
+        TVbackIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(intent);
+            }
+        });
+        TVlogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                // Sign out the user
+                FirebaseAuth.getInstance().signOut();
+            }
+        });
     }
 
     private void retrieveUserCategory() {
@@ -80,10 +106,14 @@ public class DisplayUsers extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     currentUserCategory = snapshot.child("userCategory").getValue(String.class);
-                    Log.d("DisplayUsers", "Current user category: " + currentUserCategory);
+                    currentUserCity = snapshot.child("userCity").getValue(String.class);
+                    Log.d("DisplayUsers", "Current city: " + currentUserCity);
+                    Log.d("city", "Current user city: " + currentUserCity);
+
                     refreshUserList();
                 } else {
                     Log.d("DisplayUsers", "User category not found");
+
                     Toast.makeText(DisplayUsers.this, "User category not found", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -96,27 +126,26 @@ public class DisplayUsers extends AppCompatActivity {
     }
 
     private void refreshUserList() {
-        if (currentUserCategory == null || currentUserCategory.isEmpty()) {
+        if (currentUserCategory == null || currentUserCategory.isEmpty() || currentUserCity == null || currentUserCity.isEmpty()) {
             return;
         }
 
-        Query userQuery = contactsRef.orderByChild("userCategory").equalTo(getOppositeCategory(currentUserCategory));
+        Query userQuery = contactsRef.orderByChild("userCategory").equalTo("Veterinary Officer");
         userQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 userList.clear();
                 for (DataSnapshot contactSnapshot : snapshot.getChildren()) {
                     UserDetails userInfo = contactSnapshot.getValue(UserDetails.class);
-                    if (userInfo != null && !userInfo.getUserCategory().equals(currentUserCategory)) {
+                    if (userInfo != null && userInfo.getUserCity().equals(currentUserCity)) {
                         userList.add(userInfo);
-
-                        if(userInfo.getUserCategory().equals("Farmer")){
-                            TVDisplaycategory.setText("Farmers");
-                        }
-                        else{
-                            TVDisplaycategory.setText("Veterinary Officers");
-                        }
                     }
+                }
+
+                if (!userList.isEmpty()) {
+                    TVDisplaycategory.setText("Veterinary Officers in " + currentUserCity);
+                } else {
+                    TVDisplaycategory.setText("No Veterinary Officers found in " + currentUserCity);
                 }
                 contactsAdapter.notifyDataSetChanged();
             }
@@ -128,7 +157,4 @@ public class DisplayUsers extends AppCompatActivity {
         });
     }
 
-    private String getOppositeCategory(String category) {
-        return category.equals("Farmer") ? "Veterinary Officer" : "Farmer";
-    }
 }
