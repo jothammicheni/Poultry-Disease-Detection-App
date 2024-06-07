@@ -7,12 +7,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 
 
 public class FlashPage extends AppCompatActivity {
     Button btnToLoginActivity;
-    public  static  final  int FLASH_DURATION_TIMEOUT=3000;
+    public  static  final  int FLASH_DURATION_TIMEOUT=1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +22,16 @@ public class FlashPage extends AppCompatActivity {
         setContentView(R.layout.activity_flash_page);
 
         btnToLoginActivity=findViewById(R.id.btnNavigateToLogin);
+
+
+
+
+        // Load the GIF from the drawable folder using Glide
+        Glide.with(this)
+                .asGif()
+                .load(R.drawable.splash)
+                .into((ImageView) findViewById(R.id.IVanimate));
+
 
         new Handler().postDelayed(new Runnable() {
             @Override

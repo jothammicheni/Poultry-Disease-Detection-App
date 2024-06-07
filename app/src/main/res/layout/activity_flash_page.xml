@@ -48,9 +48,9 @@
               android:gravity="center"
               >
               <ImageView
-                  android:layout_width="200dp"
+                  android:layout_width="match_parent"
                   android:layout_height="200dp"
-                  android:src="@mipmap/hen_image_foreground"
+                  android:id="@+id/IVanimate"
                   android:layout_marginTop="40dp"
                   />
           </LinearLayout>
