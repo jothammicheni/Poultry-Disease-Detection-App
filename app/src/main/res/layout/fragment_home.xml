@@ -30,15 +30,14 @@
             android:textAlignment="center"
             android:textSize="20sp"
             android:layout_marginTop="20dp"
-            android:textColor="@color/teal_200"
+            android:textColor="@color/black"
 
             />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="These app detects the presence  of Newcastle,coccodiocis and salmonella diseases in bird ! Please upload only
- clear Image of  Layer manure"
+
             android:layout_marginTop="10dp"
             android:textAlignment="viewStart"
             android:textSize="15sp"
@@ -50,26 +49,46 @@
     android:gravity="center"
     android:orientation="vertical"
     >
-    <ImageView
-        android:layout_width="250dp"
-        android:layout_height="250dp"
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        app:cardCornerRadius="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        app:cardBackgroundColor="@color/image_carview_color"
+
+        >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        >
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:id="@+id/IVimage"
         android:layout_margin="20dp"
-
-     android:background="@drawable/image_holder"
+       android:background="@drawable/image_holder"
         />
+    </LinearLayout>
+    </androidx.cardview.widget.CardView>
 <LinearLayout
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:padding="5dp"
     android:layout_marginTop="30dp"
     android:orientation="horizontal"
+
+    android:id="@+id/LLCamera"
     >
     <androidx.appcompat.widget.AppCompatButton
-        android:layout_width="250dp"
+        android:layout_width="200dp"
         android:layout_height="50dp"
         android:text="Upload Image"
-        android:backgroundTint="@color/teal_200"
+        android:backgroundTint="@color/button_color"
 
         android:textStyle="bold"
         android:id="@+id/btnUploadImage"
@@ -87,11 +106,11 @@
 
 
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:layout_width="250dp"
         android:layout_height="50dp"
         android:text="Predict"
-        android:backgroundTint="@color/teal_200"
+        android:backgroundTint="@color/button_color"
         android:textStyle="bold"
         android:id="@+id/btnPredict"
         android:background="@drawable/buttonbackgrouds"
@@ -109,8 +128,72 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
                 android:id="@+id/TVresults"
                 />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                 app:cardCornerRadius="15dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                app:cardBackgroundColor="@color/image_carview_color"
+                android:id="@+id/CardView"
+                android:visibility="gone"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    >
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                         android:text="processing..."
+                        android:textAlignment="center"
+                        android:textSize="25sp"
+                        android:textStyle="bold"
+                        android:id="@+id/TVprocessing"
+                        android:visibility="gone"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Disease found"
+                        android:textAlignment="center"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:id="@+id/TVFoundDisease"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="salmonella"
+                        android:textAlignment="center"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:id="@+id/TVDisease"
+                        />
+
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:layout_width="200dp"
+                        android:layout_height="50dp"
+                        android:text="View More"
+                        android:backgroundTint="@color/button_color"
+                         android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:textStyle="bold"
+                        android:id="@+id/btnMoveToResults"
+                        android:background="@drawable/buttonbackgrouds"
+                        />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
     </RelativeLayout>
