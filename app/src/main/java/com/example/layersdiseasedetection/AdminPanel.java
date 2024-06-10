@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class AdminPanel extends AppCompatActivity {
     Button btnaddnewfarmer,btnaddnewvet,btnupdateusers;
     TextView TVback,TVlogout;
@@ -30,6 +33,11 @@ public class AdminPanel extends AppCompatActivity {
         TVlogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
+                FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
+
+                FirebaseAuth.getInstance().signOut();
                 Intent intent=new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
 

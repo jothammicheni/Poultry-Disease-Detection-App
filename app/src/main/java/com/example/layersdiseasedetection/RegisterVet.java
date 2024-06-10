@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.layersdiseasedetection.data.UserDetails;
@@ -18,6 +19,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -28,6 +30,7 @@ public class RegisterVet extends AppCompatActivity {
     EditText editName, editEmail, editPassword, editPhone,editCity;
     Button btnRegister;
     ProgressBar PBprogress;
+    private TextView Tvback,Tvlogout;
     RadioButton radioFarmer, radioVetOfficer;
 
     FirebaseAuth mAuth;
@@ -48,6 +51,8 @@ public class RegisterVet extends AppCompatActivity {
         PBprogress = findViewById(R.id.progress);
         radioFarmer = findViewById(R.id.radioFarmer);
         radioVetOfficer = findViewById(R.id.radioVetOfficer);
+        Tvback=findViewById(R.id.TVback);
+        Tvlogout=findViewById(R.id.TVLogout);
 
 
         // Initialize Firebase
@@ -56,6 +61,25 @@ public class RegisterVet extends AppCompatActivity {
 
         // Register button click listener
         btnRegister.setOnClickListener(v -> RegisterNewUser());
+
+        Tvback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(),AdminPanel.class);
+                startActivity(intent);
+            }
+        });
+        Tvlogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
+
+                FirebaseAuth.getInstance().signOut();
+                Intent intent=new Intent(getApplicationContext(),LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     public void RegisterNewUser() {

@@ -25,7 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
     EditText editEmail, editPassword;
-    Button btnLoginAsFarmer, btnLoginAsVet;
+    Button btnLoginAsAdmin, btnLoginUser ;
     ProgressBar PBprogress;
 
     FirebaseAuth mAuth;
@@ -35,8 +35,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        btnLoginAsVet = findViewById(R.id.btnSignInAsVet);
-        btnLoginAsFarmer = findViewById(R.id.btnSignInAsfarmer);
+        btnLoginUser = findViewById(R.id.btnSignInAsfarmer);
+        btnLoginAsAdmin= findViewById(R.id.btnAdmin);
         editEmail = findViewById(R.id.editEmail);
         editPassword = findViewById(R.id.editPassword);
         PBprogress = findViewById(R.id.progress);
@@ -50,17 +50,37 @@ public class LoginActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        btnLoginAsVet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                loginVet();
-            }
-        });
-
-        btnLoginAsFarmer.setOnClickListener(new View.OnClickListener() {
+        btnLoginUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 loginUser();
+            }
+        });
+
+        btnLoginAsAdmin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String email = editEmail.getText().toString().trim();
+                String password = editPassword.getText().toString().trim();
+                //loginUser();
+                if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    editEmail.setError("Enter a valid email");
+                    editEmail.requestFocus();
+                    return;
+                }
+
+                if (password.isEmpty()) {
+                    editPassword.setError("Password can't be empty");
+                    editPassword.requestFocus();
+                    return;
+                }
+                if(email.equals("admin@gmail.com")&&password.equals("123456")){
+                    Intent intent=new Intent(getApplicationContext(), AdminPanel.class);
+                    startActivity(intent);
+                }
+
+
             }
         });
     }
@@ -93,7 +113,7 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
-                        Intent intent = new Intent(getApplicationContext(), AdminPanel.class);
+                        Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                         startActivity(intent);
                         PBprogress.setVisibility(View.GONE);
                     }

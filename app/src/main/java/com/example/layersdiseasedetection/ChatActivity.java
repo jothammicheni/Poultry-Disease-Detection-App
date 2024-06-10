@@ -1,11 +1,13 @@
 package com.example.layersdiseasedetection;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.layersdiseasedetection.data.Message;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,6 +38,8 @@ public class ChatActivity extends AppCompatActivity {
     private ImageButton buttonSend;
     private RecyclerView recyclerView;
     private MessageAdapter messageAdapter;
+
+    private TextView Tvback,Tvlogout;
     private FirebaseAuth mAuth;
     private List<Message> messageList = new ArrayList<>();
 
@@ -46,6 +51,8 @@ public class ChatActivity extends AppCompatActivity {
         editTextMessage = findViewById(R.id.chatEditText);
         buttonSend = findViewById(R.id.btnSendMessage);
         recyclerView = findViewById(R.id.recyclerView);
+        Tvback=findViewById(R.id.TVback);
+        Tvlogout=findViewById(R.id.TVLogout);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -57,6 +64,26 @@ public class ChatActivity extends AppCompatActivity {
         recyclerView.setAdapter(messageAdapter);
 
         buttonSend.setOnClickListener(view -> sendMessageToConversation());
+
+        //back
+        Tvback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(),DisplayUsers.class);
+                startActivity(intent);
+            }
+        });
+        Tvlogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
+
+                FirebaseAuth.getInstance().signOut();
+                Intent intent=new Intent(getApplicationContext(),LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         loadConversationMessages();
     }

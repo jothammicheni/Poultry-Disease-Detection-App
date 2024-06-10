@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroud_color"
     tools:context=".ui.chats.FragmentChat">
 
 <!--    <LinearLayout-->
@@ -41,7 +42,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/LLTitleholder"
-        android:layout_below="@+id/topLayout"
         android:layout_margin="10dp"
         >
         <TextView

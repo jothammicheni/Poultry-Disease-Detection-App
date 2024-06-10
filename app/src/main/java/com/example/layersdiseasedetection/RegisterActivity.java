@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.layersdiseasedetection.data.UserDetails;
@@ -18,6 +19,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -32,6 +34,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     FirebaseAuth mAuth;
     DatabaseReference databaseReference;
+
+    TextView TVback,TVlogout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +52,8 @@ public class RegisterActivity extends AppCompatActivity {
         editCity=findViewById(R.id.editCity);
         radioFarmer = findViewById(R.id.radioFarmer);
         radioVetOfficer = findViewById(R.id.radioVetOfficer);
+        TVback=findViewById(R.id.TVback);
+        TVlogout=findViewById(R.id.TVLogout);
 
         // Initialize Firebase
         mAuth = FirebaseAuth.getInstance();
@@ -55,6 +61,31 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Register button click listener
         btnRegister.setOnClickListener(v -> RegisterNewUser());
+
+
+        TVlogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
+
+                FirebaseAuth.getInstance().signOut();
+                Intent intent=new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+
+            }
+        });
+        TVback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent=new Intent(getApplicationContext(), AdminPanel.class);
+                startActivity(intent);
+
+            }
+        });
+
     }
 
     public void RegisterNewUser() {

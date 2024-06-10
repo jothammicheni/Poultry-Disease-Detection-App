@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
+    android:background="@color/backgroud_color"
     tools:context=".ui.feedFomulation.Feed_FormulationFragment">
 
     <LinearLayout

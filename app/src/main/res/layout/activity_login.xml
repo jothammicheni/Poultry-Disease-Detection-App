@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroud_color"
     tools:context=".LoginActivity">
 
 
@@ -89,24 +90,24 @@
 
                 >
                 <androidx.appcompat.widget.AppCompatButton
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:text="FARMER/VET"
+                    android:layout_width="150dp"
+                    android:layout_height="60dp"
+                    android:text="farmer/Vet"
                     android:backgroundTint="@color/teal_200"
                     android:textStyle="bold"
                     android:id="@+id/btnSignInAsfarmer"
 
                     />
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="150dp"
+                    android:layout_height="60dp"
                     android:layout_marginLeft="10dp"
-                    android:text="ADMIN"
+                    android:text="Admin"
                     android:backgroundTint="@color/teal_200"
                     android:textStyle="bold"
-                    android:visibility="gone"
-                    android:id="@+id/btnSignInAsVet"
+
+                    android:id="@+id/btnAdmin"
 
                     />
 

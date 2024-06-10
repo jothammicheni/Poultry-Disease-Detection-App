@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import com.example.layersdiseasedetection.data.Medication;
 import com.example.layersdiseasedetection.data.MedicationDetails;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,6 +33,7 @@ public class DisplayResults extends AppCompatActivity {
 
     DatabaseReference dataRef;
     Integer results;
+    private TextView Tvback,Tvlogout;
     String disease;
     String url;
 
@@ -45,6 +48,8 @@ public class DisplayResults extends AppCompatActivity {
         TVdosages = findViewById(R.id.TVdosages);
         btnChatWithVet = findViewById(R.id.btnChatWithVet);
         IVmedicationImage = findViewById(R.id.IVmedicationImage);
+        Tvback=findViewById(R.id.TVback);
+        Tvlogout=findViewById(R.id.TVLogout);
 
          results = getIntent().getIntExtra("prediction", 0);
 
@@ -74,6 +79,29 @@ public class DisplayResults extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(getApplicationContext(),DisplayUsers.class);
+                startActivity(intent);
+            }
+        });
+
+
+        Tvlogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
+
+                FirebaseAuth.getInstance().signOut();
+                Intent intent=new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+
+            }
+        });
+        //
+        Tvback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
             }
         });
