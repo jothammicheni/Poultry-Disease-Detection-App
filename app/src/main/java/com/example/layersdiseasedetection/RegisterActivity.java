@@ -1,6 +1,7 @@
 package com.example.layersdiseasedetection;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -27,7 +28,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
-    EditText editName, editEmail, editPassword, editPhone,editCity;
+    EditText editName, editEmail, editPassword, editPhone, editCity;
     Button btnRegister;
     ProgressBar PBprogress;
     RadioButton radioFarmer, radioVetOfficer;
@@ -35,7 +36,7 @@ public class RegisterActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     DatabaseReference databaseReference;
 
-    TextView TVback,TVlogout;
+    TextView TVback, TVlogout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,11 +50,11 @@ public class RegisterActivity extends AppCompatActivity {
         editPassword = findViewById(R.id.editPassword);
         editPhone = findViewById(R.id.editPhone);
         PBprogress = findViewById(R.id.progress);
-        editCity=findViewById(R.id.editCity);
+        editCity = findViewById(R.id.editCity);
         radioFarmer = findViewById(R.id.radioFarmer);
         radioVetOfficer = findViewById(R.id.radioVetOfficer);
-        TVback=findViewById(R.id.TVback);
-        TVlogout=findViewById(R.id.TVLogout);
+        TVback = findViewById(R.id.TVback);
+        TVlogout = findViewById(R.id.TVLogout);
 
         // Initialize Firebase
         mAuth = FirebaseAuth.getInstance();
@@ -62,30 +63,17 @@ public class RegisterActivity extends AppCompatActivity {
         // Register button click listener
         btnRegister.setOnClickListener(v -> RegisterNewUser());
 
-
-        TVlogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-
-                FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
-
-                FirebaseAuth.getInstance().signOut();
-                Intent intent=new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(intent);
-
-            }
-        });
-        TVback.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent=new Intent(getApplicationContext(), AdminPanel.class);
-                startActivity(intent);
-
-            }
+        TVlogout.setOnClickListener(v -> {
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
         });
 
+        TVback.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), AdminPanel.class);
+            startActivity(intent);
+        });
     }
 
     public void RegisterNewUser() {
@@ -93,9 +81,9 @@ public class RegisterActivity extends AppCompatActivity {
         String email = editEmail.getText().toString().trim();
         String phone = editPhone.getText().toString().trim();
         String password = editPassword.getText().toString().trim();
-        String city=editCity.getText().toString().trim();
-       // String userCategory = radioFarmer.isChecked() ? "Farmer" : "Veterinary Officer";
-        String userCategory="Farmer";
+        String city = editCity.getText().toString().trim();
+        String userCategory = "Farmer";
+
         // Validate phone number format
         String regex = "(07|01)\\d{8}";
         Pattern pattern = Pattern.compile(regex);
@@ -136,38 +124,42 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Create user with email and password using Firebase Authentication
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                    @Override
-                    public void onSuccess(AuthResult authResult) {
-                        // Successfully created user, now store user details in Firebase Realtime Database
-                        String userId = mAuth.getCurrentUser().getUid();
-                        DatabaseReference userRef = databaseReference.child(userId);
-                        UserDetails user = new UserDetails(username, email, password,phone, userCategory,city);
-                        userRef.setValue(user)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void unused) {
-                                        Toast.makeText(RegisterActivity.this, "User registered", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                                        startActivity(intent);
-                                        PBprogress.setVisibility(View.GONE);
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(RegisterActivity.this, "Registration failed", Toast.LENGTH_SHORT).show();
-                                        PBprogress.setVisibility(View.GONE);
-                                    }
-                                });
-                    }
+                .addOnSuccessListener(authResult -> {
+                    // Successfully created user, now store user details in Firebase Realtime Database
+                    String userId = mAuth.getCurrentUser().getUid();
+                    DatabaseReference userRef = databaseReference.child(userId);
+                    UserDetails user = new UserDetails(username, email, password, phone, userCategory, city);
+                    userRef.setValue(user)
+                            .addOnSuccessListener(unused -> {
+                                Toast.makeText(RegisterActivity.this, "User registered", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                startActivity(intent);
+                                PBprogress.setVisibility(View.GONE);
+                            })
+                            .addOnFailureListener(e -> {
+                             //   Toast.makeText(RegisterActivity.this, "Registration failed", Toast.LENGTH_SHORT).show();
+                                PBprogress.setVisibility(View.GONE);
+
+                                // Create the dialog box
+                                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(RegisterActivity.this);
+                                dialogBuilder.setTitle("Error")
+                                        .setMessage("Error occurred while registering: " + e.getMessage())
+                                        .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
+                                        .create()
+                                        .show();
+                            });
                 })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(RegisterActivity.this, "Registration failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        PBprogress.setVisibility(View.GONE);
-                    }
+                .addOnFailureListener(e -> {
+                    Toast.makeText(RegisterActivity.this, "Registration failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    PBprogress.setVisibility(View.GONE);
+
+                    // Create the dialog box
+                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(RegisterActivity.this);
+                    dialogBuilder.setTitle("Error")
+                            .setMessage("Error occurred while registering: " + e.getMessage())
+                            .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
+                            .create()
+                            .show();
                 });
     }
 }

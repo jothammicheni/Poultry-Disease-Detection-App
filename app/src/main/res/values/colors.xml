@@ -5,7 +5,7 @@
     <color name="purple_700">#D0D0D0</color>
 
     <color name="teal_200"> #FB8C00</color>
-<!--    <color name="teal_200">#0000FF</color>-->
+<color name="teal_300">#0000FF</color>
     <color name="teal_700">#D0D0D0</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>

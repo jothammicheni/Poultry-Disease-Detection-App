@@ -15,7 +15,7 @@
             android:id="@+id/nav_feeds"
             android:background="@drawable/menu_item_selector"
             android:icon="@drawable/feeds_logo"
-            android:title="Feed Formulation" />
+            android:title="Calculate Feed" />
 
 
 
@@ -26,10 +26,10 @@
             android:title="Chats" />
 
 
-        <item
-            android:id="@+id/nav_profile"
-            android:background="@drawable/menu_item_selector"
-            android:icon="@drawable/profile_icon"
-            android:title="Add new Users" />
+<!--        <item-->
+<!--            android:id="@+id/nav_profile"-->
+<!--            android:background="@drawable/menu_item_selector"-->
+<!--            android:icon="@drawable/profile_icon"-->
+<!--            android:title="Add new Users" />-->
     </group>
 </menu>

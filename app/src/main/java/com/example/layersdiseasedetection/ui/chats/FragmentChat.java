@@ -44,6 +44,7 @@ public class FragmentChat extends Fragment {
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
     private String currentUserCategory;
+    private String currentUserCity;
 
     @Nullable
     @Override
@@ -91,7 +92,10 @@ public class FragmentChat extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     currentUserCategory = snapshot.child("userCategory").getValue(String.class);
-                    Log.d("FragmentChat", "Current user category: " + currentUserCategory);
+                    currentUserCity = snapshot.child("userCity").getValue(String.class);
+                    Log.d("FragmentChat", "Current city: " + currentUserCity);
+                    Log.d("FragmentChat", "Current user city: " + currentUserCity);
+
                     refreshUserList();
                 } else {
                     Log.d("FragmentChat", "User category not found");
@@ -107,26 +111,27 @@ public class FragmentChat extends Fragment {
     }
 
     private void refreshUserList() {
-        if (currentUserCategory == null || currentUserCategory.isEmpty()) {
+        if (currentUserCategory == null || currentUserCategory.isEmpty() || currentUserCity == null || currentUserCity.isEmpty()) {
             return;
         }
 
-        Query userQuery = contactsRef.orderByChild("userCategory").equalTo(getOppositeCategory(currentUserCategory));
+        String oppositeCategory = currentUserCategory.equals("Farmer") ? "Veterinary Officer" : "Farmer";
+        Query userQuery = contactsRef.orderByChild("userCategory").equalTo(oppositeCategory);
         userQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 userList.clear();
                 for (DataSnapshot contactSnapshot : snapshot.getChildren()) {
                     UserDetails userInfo = contactSnapshot.getValue(UserDetails.class);
-                    if (userInfo != null && !userInfo.getUserCategory().equals(currentUserCategory)) {
+                    if (userInfo != null && userInfo.getUserCity().equals(currentUserCity)) {
                         userList.add(userInfo);
-
-                        if (userInfo.getUserCategory().equals("Farmer")) {
-                            TVDisplaycategory.setText("Farmers");
-                        } else {
-                            TVDisplaycategory.setText("Veterinary Officers");
-                        }
                     }
+                }
+
+                if (!userList.isEmpty()) {
+                    TVDisplaycategory.setText(oppositeCategory + "s in " + currentUserCity);
+                } else {
+                    TVDisplaycategory.setText("No " + oppositeCategory + "s found in " + currentUserCity);
                 }
                 contactsAdapter.notifyDataSetChanged();
             }
@@ -136,15 +141,5 @@ public class FragmentChat extends Fragment {
                 Toast.makeText(requireContext(), "Failed to load user list", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private String getOppositeCategory(String category) {
-        return category.equals("Farmer") ? "Veterinary Officer" : "Farmer";
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
     }
 }

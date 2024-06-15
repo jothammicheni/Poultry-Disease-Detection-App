@@ -1,6 +1,7 @@
 package com.example.layersdiseasedetection;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -163,9 +164,18 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(LoginActivity.this, "" + e, Toast.LENGTH_SHORT).show();
+                    //    Toast.makeText(LoginActivity.this, "" + e, Toast.LENGTH_SHORT).show();
                         PBprogress.setVisibility(View.GONE);
+
+                        // Create the dialog box
+                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(LoginActivity.this);
+                        dialogBuilder.setTitle("Error")
+                                .setMessage("Error occurred while logging in: " + e.getMessage())
+                                .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
+                                .create()
+                                .show();
                     }
                 });
+
     }
 }

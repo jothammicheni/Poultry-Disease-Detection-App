@@ -31,7 +31,7 @@ public class DisplayUsers extends AppCompatActivity {
     private DatabaseReference contactsRef;
     private ContactsAdapter contactsAdapter;
 
-    TextView TVbackIcon,TVlogout;
+    TextView TVbackIcon, TVlogout;
     private List<UserDetails> userList;
     private TextView TVDisplaycategory;
 
@@ -45,8 +45,8 @@ public class DisplayUsers extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_users);
         TVDisplaycategory = findViewById(R.id.TVcategoryDisplay);
-        TVlogout=findViewById(R.id.TVLogout);
-        TVbackIcon=findViewById(R.id.TVback);
+        TVlogout = findViewById(R.id.TVLogout);
+        TVbackIcon = findViewById(R.id.TVback);
         initializeFirebase();
         setupRecyclerView();
 
@@ -78,24 +78,13 @@ public class DisplayUsers extends AppCompatActivity {
             startActivity(intent);
         });
 
-
-
-
-        TVbackIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(),MainActivity.class);
-                startActivity(intent);
-            }
+        TVbackIcon.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
         });
-        TVlogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-                // Sign out the user
-                FirebaseAuth.getInstance().signOut();
-            }
+        TVlogout.setOnClickListener(v -> {
+            FirebaseAuth.getInstance().signOut();
         });
     }
 
@@ -113,7 +102,6 @@ public class DisplayUsers extends AppCompatActivity {
                     refreshUserList();
                 } else {
                     Log.d("DisplayUsers", "User category not found");
-
                     Toast.makeText(DisplayUsers.this, "User category not found", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -130,7 +118,8 @@ public class DisplayUsers extends AppCompatActivity {
             return;
         }
 
-        Query userQuery = contactsRef.orderByChild("userCategory").equalTo("Veterinary Officer");
+        String oppositeCategory = currentUserCategory.equals("Farmer") ? "Veterinary Officer" : "Farmer";
+        Query userQuery = contactsRef.orderByChild("userCategory").equalTo(oppositeCategory);
         userQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -143,9 +132,9 @@ public class DisplayUsers extends AppCompatActivity {
                 }
 
                 if (!userList.isEmpty()) {
-                    TVDisplaycategory.setText("Veterinary Officers in " + currentUserCity);
+                    TVDisplaycategory.setText(oppositeCategory + "s in " + currentUserCity);
                 } else {
-                    TVDisplaycategory.setText("No Veterinary Officers found in " + currentUserCity);
+                    TVDisplaycategory.setText("No " + oppositeCategory + "s found in " + currentUserCity);
                 }
                 contactsAdapter.notifyDataSetChanged();
             }
@@ -156,5 +145,4 @@ public class DisplayUsers extends AppCompatActivity {
             }
         });
     }
-
 }

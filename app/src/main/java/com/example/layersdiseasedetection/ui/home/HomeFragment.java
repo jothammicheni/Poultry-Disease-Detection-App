@@ -30,6 +30,7 @@ import com.example.layersdiseasedetection.DisplayResults;
 import com.example.layersdiseasedetection.R;
 import com.example.layersdiseasedetection.databinding.FragmentHomeBinding;
 import com.example.layersdiseasedetection.ml.Model;
+import com.example.layersdiseasedetection.ml.Model2;
 
 import org.tensorflow.lite.DataType;
 import org.tensorflow.lite.support.image.TensorImage;
@@ -50,10 +51,10 @@ public class HomeFragment extends Fragment {
 
     private LinearLayout LLDisplayButton;
     private Bitmap img;
-    private Model model;
+    private Model2 model;
     private Button btnUploadImage, btnPredict;
 
-    private static final float CONFIDENCE_THRESHOLD = 0.95f;
+    private static final float CONFIDENCE_THRESHOLD = 0.75f;
     private ActivityResultLauncher<String> pickImageLauncher;
     private ActivityResultLauncher<Intent> takePictureLauncher;
 
@@ -77,7 +78,7 @@ public class HomeFragment extends Fragment {
         cardView=binding.CardView;
         // Initialize TensorFlow Lite model
         try {
-            model = Model.newInstance(requireContext());
+            model = Model2.newInstance(requireContext());
         } catch (IOException e) {
             Toast.makeText(requireContext(), "Error initializing model", Toast.LENGTH_SHORT).show();
         }
@@ -155,16 +156,16 @@ public class HomeFragment extends Fragment {
 
     public void predictResults() {
         if (img != null) {
-            img = Bitmap.createScaledBitmap(img, 128, 128, true);
+            img = Bitmap.createScaledBitmap(img, 224, 224, true);
 
-            TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 128, 128, 3}, DataType.FLOAT32);
+            TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 224, 224, 3}, DataType.FLOAT32);
 
             TensorImage tensorImage = new TensorImage(DataType.FLOAT32);
             tensorImage.load(img);
             ByteBuffer byteBuffer = tensorImage.getBuffer();
             inputFeature0.loadBuffer(byteBuffer);
 
-            Model.Outputs outputs = model.process(inputFeature0);
+            Model2.Outputs outputs = model.process(inputFeature0);
             TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
 
             int predictedClass = findMaxProbabilityClass(outputFeature0.getFloatArray());
@@ -172,6 +173,7 @@ public class HomeFragment extends Fragment {
 
             if (confidence >= CONFIDENCE_THRESHOLD && predictedClass != 1) {
                 TVresults.setText("Predicted Class: " + predictedClass);
+                TVresults.setVisibility(View.VISIBLE);
                 Toast.makeText(requireContext(), "Confidence: " + confidence, Toast.LENGTH_SHORT).show();
 //                Intent intent = new Intent(requireContext(), DisplayResults.class);
 //                intent.putExtra("prediction", predictedClass);
@@ -195,12 +197,14 @@ public class HomeFragment extends Fragment {
 
 
             } else {
+                TVresults.setVisibility(View.VISIBLE);
                 TVresults.setText("No Disease detected..Please Try again ");
                 btnUploadImage.setVisibility(View.VISIBLE);
                 btnPredict.setVisibility(View.GONE);
                 LLDisplayButton.setVisibility(View.VISIBLE);
                cardView.setVisibility(View.GONE);
                 IVimage.setImageBitmap(null);
+                Toast.makeText(requireContext(), ""+ results, Toast.LENGTH_SHORT).show();
             }
         } else {
             Toast.makeText(requireContext(), "No image selected", Toast.LENGTH_SHORT).show();

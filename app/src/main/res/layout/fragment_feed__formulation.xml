@@ -105,7 +105,9 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
+                android:id="@+id/LLresults"
                 android:orientation="vertical"
+                android:visibility="gone"
                 >
 
                 <TextView
@@ -113,9 +115,8 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
                     android:textSize="20sp"
-                    android:textStyle="bold"
                     android:textAlignment="viewStart"
-                    android:text="feed per bird(kgs)"
+                    android:text="feed per bird(g)"
 
 
                     />
@@ -139,7 +140,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
                     android:textSize="20sp"
-                    android:textStyle="bold"
+                    android:id="@+id/TVTotal"
                     android:textAlignment="viewStart"
                     android:text="Total feeds per flock(kgs)"
 
@@ -163,7 +164,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
                     android:textSize="20sp"
-                    android:textStyle="bold"
+                    android:id="@+id/TVrequrements"
                     android:textAlignment="viewStart"
                     android:text="Feeds type requirements"
 

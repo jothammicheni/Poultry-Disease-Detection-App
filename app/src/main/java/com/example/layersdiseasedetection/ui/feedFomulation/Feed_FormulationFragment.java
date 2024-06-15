@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,7 @@ public class Feed_FormulationFragment extends Fragment {
   //  private FeedFormulationViewModel viewModel;
 
     private EditText editBirdsNumber, editAgeNumber;
+    private LinearLayout LLresults;
     private Button btnCalculateFeeds;
     private TextView textViewResult,textViewTotalFeed,textViewFeedType;
 
@@ -43,6 +45,7 @@ public class Feed_FormulationFragment extends Fragment {
         textViewResult = binding.textViewResult;
         textViewTotalFeed=binding.textViewTotalfeed;
         textViewFeedType=binding.textViewFeedType;
+        LLresults=binding.LLresults;
 
         btnCalculateFeeds.setOnClickListener(v -> formluateFeeds());
 
@@ -80,10 +83,10 @@ public class Feed_FormulationFragment extends Fragment {
             if(age<1){
                 feedType="invalid number";
             }else if(age>0&&age<8){
-                feedType="Starter";
+                feedType="Starter chick mash";
 
             }else if(age>=9&&age<20){
-                feedType="grower";
+                feedType="grower mash";
             }else{
                 feedType="layer mash";
             }
@@ -99,9 +102,9 @@ public class Feed_FormulationFragment extends Fragment {
             }else if(age>20){
                 totalAmount=(20*7)/2+40;
             }
-
-            textViewResult.setText(String.valueOf(totalAmount) + " (KGS)");
-            textViewTotalFeed.setText(String.valueOf(totalAmount*birds) + " (KGS)");
+            LLresults.setVisibility(View.VISIBLE);
+            textViewResult.setText(String.valueOf(totalAmount) + " (grams)");
+            textViewTotalFeed.setText(String.valueOf((totalAmount*birds)/1000)+ " (KGS)");
             textViewFeedType.setText(feedType);
 
 
