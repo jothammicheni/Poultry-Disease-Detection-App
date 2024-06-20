@@ -19,6 +19,9 @@
         android:theme="@style/Theme.LayersDiseaseDetection"
         tools:targetApi="31">
         <activity
+            android:name=".DiseaseSpread"
+            android:exported="false" />
+        <activity
             android:name=".DisplayUsers"
             android:exported="false"
             android:theme="@style/Theme.LayersDiseaseDetection" />
@@ -68,7 +71,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+                <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             </intent-filter>
         </activity>
     </application>
