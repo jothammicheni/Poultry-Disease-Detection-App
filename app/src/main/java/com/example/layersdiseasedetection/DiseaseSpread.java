@@ -17,11 +17,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.util.ArrayList;
@@ -123,7 +126,7 @@ public class DiseaseSpread extends AppCompatActivity {
 
         public SimulationResult(double finalInfected, double finalRecovered, double finalDead) {
             this.finalInfected = finalInfected;
-            this.finalRecovered = finalRecovered;
+            this.finalRecovered = finalRecovered+1;
             this.finalDead = finalDead;
         }
     }
@@ -172,23 +175,29 @@ public class DiseaseSpread extends AppCompatActivity {
         LineDataSet dataSetInfected = new LineDataSet(entriesInfected, "Infected");
         dataSetInfected.setColor(Color.BLUE);
         dataSetInfected.setCircleColor(Color.BLUE);
-        dataSetInfected.setCircleRadius(3f);
+        dataSetInfected.setCircleHoleColor(Color.BLUE);
+        dataSetInfected.setCircleRadius(4f); // Large squares
         dataSetInfected.setLineWidth(2f);
-        dataSetInfected.setValueTextSize(10f);
+        dataSetInfected.setDrawValues(false);
+        dataSetInfected.setDrawCircles(true);
 
         LineDataSet dataSetRecovered = new LineDataSet(entriesRecovered, "Recovered");
         dataSetRecovered.setColor(Color.GREEN);
         dataSetRecovered.setCircleColor(Color.GREEN);
-        dataSetRecovered.setCircleRadius(3f);
+        dataSetRecovered.setCircleHoleColor(Color.GREEN);
+        dataSetRecovered.setCircleRadius(2f); // Small squares
         dataSetRecovered.setLineWidth(2f);
-        dataSetRecovered.setValueTextSize(10f);
+        dataSetRecovered.setDrawValues(false);
+        dataSetRecovered.setDrawCircles(true);
 
         LineDataSet dataSetDead = new LineDataSet(entriesDead, "Dead");
         dataSetDead.setColor(Color.RED);
         dataSetDead.setCircleColor(Color.RED);
-        dataSetDead.setCircleRadius(3f);
+        dataSetDead.setCircleHoleColor(Color.RED);
+        dataSetDead.setCircleRadius(3f); // Medium squares
         dataSetDead.setLineWidth(2f);
-        dataSetDead.setValueTextSize(10f);
+        dataSetDead.setDrawValues(false);
+        dataSetDead.setDrawCircles(true);
 
         List<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(dataSetInfected);
@@ -197,14 +206,22 @@ public class DiseaseSpread extends AppCompatActivity {
 
         LineData lineData = new LineData(dataSets);
 
-        // Retrieve existing LayoutParams and modify them
-        ViewGroup.LayoutParams layoutParams = lineChart.getLayoutParams();
-        layoutParams.height = 800; // Adjust height as needed
-        lineChart.setLayoutParams(layoutParams);
+        // Customize the x-axis and y-axis
+        // Add customization for x-axis and y-axis here
+
+        lineChart.setDrawGridBackground(true);
+        lineChart.setGridBackgroundColor(Color.WHITE); // Set a white background color
+        lineChart.setDrawBorders(true);
+        lineChart.setBorderColor(Color.GRAY); // Set gray border color
+        lineChart.getXAxis().setDrawGridLines(true); // Show vertical grid lines
+        lineChart.getAxisLeft().setDrawGridLines(true); // Show horizontal grid lines
+        lineChart.getXAxis().setDrawGridLinesBehindData(true); // Draw grid lines behind the data
+        lineChart.getAxisLeft().setDrawGridLinesBehindData(true); // Draw grid lines behind the data
+        lineChart.getXAxis().setGridColor(Color.BLACK); // Set grid color to black
+        lineChart.getAxisLeft().setGridColor(Color.BLACK); // Set grid color to black
 
         lineChart.setData(lineData);
         lineChart.invalidate();
-
-        LLholder.setVisibility(View.VISIBLE);
     }
+
 }

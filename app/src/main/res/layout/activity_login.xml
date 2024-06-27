@@ -20,6 +20,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
 
+            android:id="@+id/LLholder"
+
             >
             <TextView
                 android:layout_width="match_parent"
@@ -134,5 +136,16 @@
                 />
         </LinearLayout>
 
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Forgot password?"
+            android:layout_below="@+id/LLholder"
+            android:layout_margin="20dp"
+            android:textStyle="italic"
+            android:textColor="@color/teal_300"
+            android:id="@+id/TVforgotpassword"
+            />
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

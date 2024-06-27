@@ -29,6 +29,7 @@
         android:id="@+id/LLUserHolder"
         android:layout_marginRight="10dp"
         android:layout_below="@id/topSpacer"
+        android:gravity="center"
         tools:ignore="MissingConstraints">
 
         <LinearLayout
@@ -48,7 +49,7 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/username"
                 android:textStyle="bold"
                 android:textColor="@color/black"
@@ -60,6 +61,7 @@
                 android:id="@+id/TVemail"
                 android:textStyle="italic"
                 android:textColor="@color/black"
+                android:visibility="gone"
                 android:text="Jothammurimi@gmail.com" />
 
             <TextView
@@ -67,6 +69,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/TVnumber"
                 android:textColor="@color/black"
+                android:visibility="gone"
                 android:text="0728930153" />
         </LinearLayout>
 

@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -29,6 +30,8 @@ public class LoginActivity extends AppCompatActivity {
     Button btnLoginAsAdmin, btnLoginUser ;
     ProgressBar PBprogress;
 
+    TextView TVforgetpwd;
+
     FirebaseAuth mAuth;
 
     @Override
@@ -41,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
         editEmail = findViewById(R.id.editEmail);
         editPassword = findViewById(R.id.editPassword);
         PBprogress = findViewById(R.id.progress);
+        TVforgetpwd=findViewById(R.id.TVforgotpassword);
 
 //        // Load the GIF from the drawable folder using Glide
 // Load the GIF from the drawable folder using Glide
@@ -55,6 +59,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 loginUser();
+            }
+        });
+
+        TVforgetpwd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(), resetPassword.class);
+                startActivity(intent);
             }
         });
 
@@ -178,4 +190,6 @@ public class LoginActivity extends AppCompatActivity {
                 });
 
     }
+
+
 }
