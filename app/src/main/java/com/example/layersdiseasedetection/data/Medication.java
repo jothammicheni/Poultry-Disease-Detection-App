@@ -8,7 +8,7 @@ public class Medication {
 
     public Medication() {
         newcastle = new String[]{"Newcastle drug",
-                "The results variable is being used without being defined in the provided code snippet. It seems like it should be defined somewhere else in the code.\n",
+                "The Newcastle Lasota vaccine is a modified live, freeze-dried vaccine that contains the B1 type LaSota strain of the Newcastle disease virus. It is used to immunize poultry against Newcastle disease, a highly contagious and often fatal viral infection that can cause significant economic losses in the poultry industry. The vaccine is designed to stimulate the bird's immune system to produce antibodies that can protect against the disease..\n",
                 "R.mipmap.testimage_foreground"};
         salmonella = new String[]{"Salmonella Name", "Salmonella Description", "R.mipmap.salmonella_image"};
         coccodiocis = new String[]{"SULFADIMETHOXINE",

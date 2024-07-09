@@ -87,11 +87,24 @@
     </LinearLayout>
 
     <!-- Cards for Results -->
+    
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvPredicted"
+        android:text="Coccidiocis"
+        android:textAlignment="center"
+        android:layout_margin="10dp"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:textColor="@color/teal_200"
+        android:layout_below="@id/LLholder"
+        />
     <LinearLayout
         android:id="@+id/LLCardHolder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/LLholder"
+        android:layout_below="@id/tvPredicted"
         android:layout_marginTop="20dp"
 
         android:gravity="center">

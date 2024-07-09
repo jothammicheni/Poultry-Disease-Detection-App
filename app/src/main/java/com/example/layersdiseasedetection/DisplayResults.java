@@ -28,7 +28,7 @@ import com.squareup.picasso.Picasso;
 public class DisplayResults extends AppCompatActivity {
 
     TextView TVpredictionResults, TVmedicationName, TVmedicationDescription, TVdosages;
-    Button btnChatWithVet;
+    Button btnChatWithVet,btnCalculateSpread;
     ImageView IVmedicationImage;
 
     DatabaseReference dataRef;
@@ -48,6 +48,7 @@ public class DisplayResults extends AppCompatActivity {
         TVdosages = findViewById(R.id.TVdosages);
         btnChatWithVet = findViewById(R.id.btnChatWithVet);
         IVmedicationImage = findViewById(R.id.IVmedicationImage);
+        btnCalculateSpread=findViewById(R.id.btnCalculateSpread);
         Tvback=findViewById(R.id.TVback);
         Tvlogout=findViewById(R.id.TVLogout);
 
@@ -102,6 +103,15 @@ public class DisplayResults extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnCalculateSpread.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(), DiseaseSpread.class);
+                intent.putExtra("result",results);
                 startActivity(intent);
             }
         });

@@ -16,15 +16,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.util.ArrayList;
@@ -35,19 +30,21 @@ public class DiseaseSpread extends AppCompatActivity {
     private EditText etFlockNumber, etInitialInfected, etSimulationDays;
     private Button btnSimulate;
 
-    LinearLayout LLholder;
+    private LinearLayout LLholder;
 
-    private TextView tvFinalInfected, tvFinalRecovered, tvFinalDead;
+    private TextView tvFinalInfected, tvFinalRecovered, tvFinalDead,tvdisease;
     private Spinner spVaccination;
     private LineChart lineChart;
 
     private double vaccinationRate = 0.0;
-    private double deathRate = 0.001;
+    private double deathRate;
     private int numBirds;
     private int initialInfected;
-    private double spreadRate = 0.3;
-    private double recoveryRate = 0.1;
+    private double spreadRate;
+    private double recoveryRate;
     private int days;
+    private String selected;
+    private Integer results;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,58 +60,118 @@ public class DiseaseSpread extends AppCompatActivity {
         tvFinalDead = findViewById(R.id.tvFinalDead);
         spVaccination = findViewById(R.id.spinnerVaccination);
         lineChart = findViewById(R.id.lineChart);
-        LLholder=findViewById(R.id.LLholder);
+        LLholder = findViewById(R.id.LLholder);
+        tvdisease=findViewById(R.id.tvPredicted);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.vaccination_options, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spVaccination.setAdapter(adapter);
+
+        // Get the predicted disease
+        results = getIntent().getIntExtra("result", 0);
+
+        // Set default rates based on the disease prediction
+        if (results == 0) { // coccidiosis
+            tvdisease.setText("coccidiosis");
+            spreadRate = 0.01;
+            deathRate = 0.5;
+            recoveryRate = 0.01;
+        } else if (results == 2) { // newcastle
+            tvdisease.setText("Newcastle Disease virus");
+            spreadRate = 0.05;
+            deathRate = 0.02;
+            recoveryRate = 0.04;
+        } else if (results == 3) { // salmonella
+            tvdisease.setText("Salmonella Diseases");
+            spreadRate = 0.01;
+            deathRate = 0.03;
+            recoveryRate = 0.06;
+        }
+
         spVaccination.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                String selected = parentView.getItemAtPosition(position).toString();
+                selected = parentView.getItemAtPosition(position).toString();
+
                 if (selected.equals("Yes")) {
-                    vaccinationRate = 1.0;
-                    deathRate = 0.001;
-                } else {
-                    vaccinationRate = 0.0;
-                    deathRate = 0.09;
+                    if (results == 0) { // coccidiosis
+                        tvdisease.setText("coccidiosis");
+                        spreadRate = 0.001;
+                        deathRate = 0.0002;
+                        recoveryRate = 0.5;
+                    } else if (results == 2) { // newcastle
+                        tvdisease.setText("Newcastle Disease virus");
+                        spreadRate = 0.005;
+                        deathRate = 0.002;
+                        recoveryRate = 0.4;
+                    } else if (results == 3) { // salmonella
+                        tvdisease.setText("Salmonella Diseases");
+                        spreadRate = 0.001;
+                        deathRate = 0.003;
+                        recoveryRate = 0.6;
+                    }
+                } else if (selected.equals("No")) {
+                    if (results == 0) { // coccidiosis
+                        spreadRate = 0.01;
+                        deathRate = 0.5;
+                        recoveryRate = 0.01;
+                    } else if (results == 2) { // newcastle
+                        spreadRate = 0.05;
+                        deathRate = 0.02;
+                        recoveryRate = 0.04;
+                    } else if (results == 3) { // salmonella
+                        spreadRate = 0.01;
+                        deathRate = 0.03;
+                        recoveryRate = 0.06;
+                    }
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                vaccinationRate = 0.0;
+                // Default behavior if nothing is selected
             }
         });
 
         btnSimulate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    numBirds = Integer.parseInt(etFlockNumber.getText().toString());
-                    initialInfected = Integer.parseInt(etInitialInfected.getText().toString());
-                    days = Integer.parseInt(etSimulationDays.getText().toString());
+                if (etFlockNumber.getText().toString().equals("")) {
+                    etFlockNumber.setError("Fill these empty");
+                    etFlockNumber.requestFocus();
+                } else if (etInitialInfected.getText().toString().equals("")) {
+                    etFlockNumber.setError("Fill these empty");
+                    etFlockNumber.requestFocus();
+                } else if (etSimulationDays.getText().toString().equals("")) {
+                    etFlockNumber.setError("Fill these empty");
+                    etFlockNumber.requestFocus();
+                } else {
+                    try {
+                        numBirds = Integer.parseInt(etFlockNumber.getText().toString());
+                        initialInfected = Integer.parseInt(etInitialInfected.getText().toString());
+                        days = Integer.parseInt(etSimulationDays.getText().toString());
 
-                    SimulationResult result = simulateDiseaseSpread(numBirds, initialInfected, spreadRate, recoveryRate, vaccinationRate, days, deathRate);
 
-                    tvFinalInfected.setText(String.valueOf((int) result.finalInfected));
-                    tvFinalRecovered.setText(String.valueOf((int) result.finalRecovered));
-                    tvFinalDead.setText(String.valueOf((int) result.finalDead));
+                        SimulationResult result = simulateDiseaseSpread(numBirds, initialInfected, spreadRate, recoveryRate, vaccinationRate, days, deathRate);
 
+                        tvFinalInfected.setText(String.valueOf((int) result.finalInfected));
+                        tvFinalRecovered.setText(String.valueOf((int) result.finalRecovered));
+                        tvFinalDead.setText(String.valueOf((int) result.finalDead));
 
-                    LLholder.setVisibility(View.VISIBLE);
+                        LLholder.setVisibility(View.VISIBLE);
 
+                        Toast.makeText(DiseaseSpread.this, "Simulation Complete", Toast.LENGTH_SHORT).show();
 
-                    Toast.makeText(DiseaseSpread.this, "Simulation Complete", Toast.LENGTH_SHORT).show();
+                        // Call drawGraph method after simulation
+                        drawGraph(result);
 
-                    // Call drawGraph method after simulation
-                    drawGraph(result);
-
-                } catch (NumberFormatException e) {
-                    Toast.makeText(DiseaseSpread.this, "Please enter valid numbers", Toast.LENGTH_SHORT).show();
-                    LLholder.setVisibility(View.GONE);
+                    } catch (NumberFormatException e) {
+                        Toast.makeText(DiseaseSpread.this, "Please enter valid numbers", Toast.LENGTH_SHORT).show();
+                        LLholder.setVisibility(View.GONE);
+                    }
                 }
+
             }
         });
     }
@@ -126,7 +183,7 @@ public class DiseaseSpread extends AppCompatActivity {
 
         public SimulationResult(double finalInfected, double finalRecovered, double finalDead) {
             this.finalInfected = finalInfected;
-            this.finalRecovered = finalRecovered+1;
+            this.finalRecovered = finalRecovered + 1;
             this.finalDead = finalDead;
         }
     }
@@ -162,9 +219,7 @@ public class DiseaseSpread extends AppCompatActivity {
         List<Entry> entriesRecovered = new ArrayList<>();
         List<Entry> entriesDead = new ArrayList<>();
 
-        // Example data, replace with your simulation result values
         for (int i = 0; i < days; i++) {
-            // Use the class-level fields directly here
             SimulationResult dailyResult = simulateDiseaseSpread(numBirds, initialInfected, spreadRate, recoveryRate, vaccinationRate, i + 1, deathRate);
 
             entriesInfected.add(new Entry(i, (float) dailyResult.finalInfected));
@@ -176,7 +231,7 @@ public class DiseaseSpread extends AppCompatActivity {
         dataSetInfected.setColor(Color.BLUE);
         dataSetInfected.setCircleColor(Color.BLUE);
         dataSetInfected.setCircleHoleColor(Color.BLUE);
-        dataSetInfected.setCircleRadius(4f); // Large squares
+        dataSetInfected.setCircleRadius(4f);
         dataSetInfected.setLineWidth(2f);
         dataSetInfected.setDrawValues(false);
         dataSetInfected.setDrawCircles(true);
@@ -185,7 +240,7 @@ public class DiseaseSpread extends AppCompatActivity {
         dataSetRecovered.setColor(Color.GREEN);
         dataSetRecovered.setCircleColor(Color.GREEN);
         dataSetRecovered.setCircleHoleColor(Color.GREEN);
-        dataSetRecovered.setCircleRadius(2f); // Small squares
+        dataSetRecovered.setCircleRadius(2f);
         dataSetRecovered.setLineWidth(2f);
         dataSetRecovered.setDrawValues(false);
         dataSetRecovered.setDrawCircles(true);
@@ -194,7 +249,7 @@ public class DiseaseSpread extends AppCompatActivity {
         dataSetDead.setColor(Color.RED);
         dataSetDead.setCircleColor(Color.RED);
         dataSetDead.setCircleHoleColor(Color.RED);
-        dataSetDead.setCircleRadius(3f); // Medium squares
+        dataSetDead.setCircleRadius(2f);
         dataSetDead.setLineWidth(2f);
         dataSetDead.setDrawValues(false);
         dataSetDead.setDrawCircles(true);
@@ -205,23 +260,11 @@ public class DiseaseSpread extends AppCompatActivity {
         dataSets.add(dataSetDead);
 
         LineData lineData = new LineData(dataSets);
-
-        // Customize the x-axis and y-axis
-        // Add customization for x-axis and y-axis here
-
-        lineChart.setDrawGridBackground(true);
-        lineChart.setGridBackgroundColor(Color.WHITE); // Set a white background color
-        lineChart.setDrawBorders(true);
-        lineChart.setBorderColor(Color.GRAY); // Set gray border color
-        lineChart.getXAxis().setDrawGridLines(true); // Show vertical grid lines
-        lineChart.getAxisLeft().setDrawGridLines(true); // Show horizontal grid lines
-        lineChart.getXAxis().setDrawGridLinesBehindData(true); // Draw grid lines behind the data
-        lineChart.getAxisLeft().setDrawGridLinesBehindData(true); // Draw grid lines behind the data
-        lineChart.getXAxis().setGridColor(Color.BLACK); // Set grid color to black
-        lineChart.getAxisLeft().setGridColor(Color.BLACK); // Set grid color to black
-
         lineChart.setData(lineData);
         lineChart.invalidate();
-    }
 
+        Description description = new Description();
+        description.setText("Disease Spread Over Time");
+        lineChart.setDescription(description);
+    }
 }
