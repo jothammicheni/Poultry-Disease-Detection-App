@@ -172,8 +172,9 @@ public class HomeFragment extends Fragment {
             float confidence = outputFeature0.getFloatArray()[predictedClass];
 
             if (confidence >= CONFIDENCE_THRESHOLD && predictedClass != 1) {
-                TVresults.setText("Predicted Class: " + predictedClass);
+               // TVresults.setText("Predicted Class: " + predictedClass);
                 TVresults.setVisibility(View.VISIBLE);
+
                 Toast.makeText(requireContext(), "Confidence: " + confidence, Toast.LENGTH_SHORT).show();
 //                Intent intent = new Intent(requireContext(), DisplayResults.class);
 //                intent.putExtra("prediction", predictedClass);
