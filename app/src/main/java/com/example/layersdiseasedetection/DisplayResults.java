@@ -63,10 +63,10 @@ public class DisplayResults extends AppCompatActivity {
             disease = "Healthy";
         } else if (results == 2) {
             disease = "Newcastle Virus disease";
-            url = "https://www.w3schools.com/colors/colors_picker.asp";
+            url = "https://vetvaco.com.vn/en/lasota-vaccine";
         } else if (results == 3) {
             disease = "Salmonella";
-            url = "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=7d5cc60e-7a16-48d7-854a-723dc1faddbf&type=display#:~:text=CHICKENS%20AND%20TURKEYS%E2%80%93%20If%20animals,drinking%20water%20and%20sulfonamide%20medication.";
+            url = "https://go.drugbank.com/drugs/DB00415";
         }
 
         TVpredictionResults.setText(disease);
@@ -132,11 +132,10 @@ public class DisplayResults extends AppCompatActivity {
            int drugImage;
         Medication medication = new Medication();
 
-        if (results == 3) {
+        if (results == 0) {
 
             drugName = medication.getCoccodiocis()[0];
             drugDescription = medication.getCoccodiocis()[1];
-
                 TVmedicationName.setText(drugName);
                 TVmedicationDescription.setText(drugDescription);
                 IVmedicationImage.setImageResource(R.mipmap.cocci_drug_foreground);
@@ -151,7 +150,15 @@ public class DisplayResults extends AppCompatActivity {
             drugDescription = medication.getNewcastle()[1];
             TVmedicationName.setText(drugName);
             TVmedicationDescription.setText(drugDescription);
-            IVmedicationImage.setImageResource(R.mipmap.testimage_foreground);
+            IVmedicationImage.setImageResource(R.drawable.newcastle);
+
+        }
+        if (results == 3) {
+            drugName = medication.getSalmonella()[0];
+            drugDescription = medication.getSalmonella()[1];
+            TVmedicationName.setText(drugName);
+            TVmedicationDescription.setText(drugDescription);
+            IVmedicationImage.setImageResource(R.drawable.newcastle);
 
         }
     }
