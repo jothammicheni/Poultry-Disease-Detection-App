@@ -128,7 +128,7 @@ public class RegisterActivity extends AppCompatActivity {
                     // Successfully created user, now store user details in Firebase Realtime Database
                     String userId = mAuth.getCurrentUser().getUid();
                     DatabaseReference userRef = databaseReference.child(userId);
-                    UserDetails user = new UserDetails(username, email, password, phone, userCategory, city);
+                    UserDetails user = new UserDetails(username, email, password, phone, userCategory, city,0,0);
                     userRef.setValue(user)
                             .addOnSuccessListener(unused -> {
                                 Toast.makeText(RegisterActivity.this, "User registered", Toast.LENGTH_SHORT).show();

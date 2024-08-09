@@ -4,31 +4,27 @@ public class UserDetails {
     String username;
     String useremail;
     String userpassword;
-
     String userCity;
     String userphone;
-    String userCategory; // Updated field name to follow camel case convention
+    String userCategory;
+    double latitude; // Add latitude
+    double longitude; // Add longitude
 
     public UserDetails() {
     }
 
-    public String getUserCity() {
-        return userCity;
-    }
-
-    public void setUserCity(String userCity) {
-        this.userCity = userCity;
-    }
-
-    public UserDetails(String username, String useremail, String userpassword, String userphone, String userCategory, String userCity) {
+    public UserDetails(String username, String useremail, String userpassword, String userphone, String userCategory, String userCity, double latitude, double longitude) {
         this.username = username;
         this.useremail = useremail;
         this.userpassword = userpassword;
         this.userphone = userphone;
         this.userCategory = userCategory;
-        this.userCity=userCity;
+        this.userCity = userCity;
+        this.latitude = latitude; // Initialize latitude
+        this.longitude = longitude; // Initialize longitude
     }
 
+    // Getters and setters for all fields
     public String getUsername() {
         return username;
     }
@@ -69,5 +65,27 @@ public class UserDetails {
         this.userCategory = userCategory;
     }
 
+    public String getUserCity() {
+        return userCity;
+    }
 
+    public void setUserCity(String userCity) {
+        this.userCity = userCity;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
 }

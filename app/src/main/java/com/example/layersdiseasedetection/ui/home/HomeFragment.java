@@ -154,6 +154,8 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
     }
 
+
+   // predict the results of the uploaded images
     public void predictResults() {
         if (img != null) {
             img = Bitmap.createScaledBitmap(img, 224, 224, true);
@@ -164,7 +166,7 @@ public class HomeFragment extends Fragment {
             tensorImage.load(img);
             ByteBuffer byteBuffer = tensorImage.getBuffer();
             inputFeature0.loadBuffer(byteBuffer);
-
+            //process the input
             Model2.Outputs outputs = model.process(inputFeature0);
             TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
 
@@ -175,10 +177,7 @@ public class HomeFragment extends Fragment {
                // TVresults.setText("Predicted Class: " + predictedClass);
                 TVresults.setVisibility(View.VISIBLE);
 
-                Toast.makeText(requireContext(), "Confidence: " + confidence, Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(requireContext(), DisplayResults.class);
-//                intent.putExtra("prediction", predictedClass);
-//                startActivity(intent);
+
 
                 results=predictedClass;
                 if (results == 0) {
@@ -205,7 +204,7 @@ public class HomeFragment extends Fragment {
                 LLDisplayButton.setVisibility(View.VISIBLE);
                cardView.setVisibility(View.GONE);
                 IVimage.setImageBitmap(null);
-                Toast.makeText(requireContext(), ""+ results, Toast.LENGTH_SHORT).show();
+               // Toast.makeText(requireContext(), ""+ results, Toast.LENGTH_SHORT).show();
             }
         } else {
             Toast.makeText(requireContext(), "No image selected", Toast.LENGTH_SHORT).show();

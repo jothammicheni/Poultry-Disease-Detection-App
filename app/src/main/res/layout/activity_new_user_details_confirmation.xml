@@ -2,10 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroud_color"
-    tools:context=".RegisterVet">
+    tools:context=".NewUserDetailsConfirmation">
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -53,14 +54,14 @@
             android:gravity="center"
             >
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Register New Vet"
+                    android:text="Confirm user details"
                     android:textStyle="bold"
                     android:textSize="30sp"
                     android:textAlignment="center"
@@ -154,7 +155,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:boxStrokeColor="@color/teal_200"
-                    app:passwordToggleEnabled="true"
+
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -163,9 +164,43 @@
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
                         android:inputType="textPassword"
-
                         android:layout_marginTop="10dp"
                         android:hint="Enter password" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:boxStrokeColor="@color/teal_200"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editLatitude"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:inputType="text"
+
+                        android:layout_marginTop="10dp"
+                        android:hint="Latitude" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:boxStrokeColor="@color/teal_200"
+
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editLongitude"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:inputType="text"
+
+                        android:layout_marginTop="10dp"
+                        android:hint="Longitude" />
 
                 </com.google.android.material.textfield.TextInputLayout>
                 <!-- Radio buttons for selecting user role -->
@@ -219,4 +254,5 @@
         </LinearLayout>
 
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

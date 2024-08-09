@@ -12,10 +12,13 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.layersdiseasedetection.data.Message;
+import com.example.layersdiseasedetection.ui.chats.FragmentChat;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -69,8 +72,12 @@ public class ChatActivity extends AppCompatActivity {
         Tvback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(),DisplayUsers.class);
-                startActivity(intent);
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                FragmentChat fragmentChat = new FragmentChat();
+                fragmentTransaction.replace(R.id.mobile_navigation, fragmentChat); // Assuming R.id.fragment_container is the ID of your container layout for fragments
+                fragmentTransaction.addToBackStack(null); // Optional: if you want to add the transaction to the back stack
+                fragmentTransaction.commit();
             }
         });
         Tvlogout.setOnClickListener(new View.OnClickListener() {
@@ -124,7 +131,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private void sendMessageToConversation() {
         DatabaseReference conversationsRef = FirebaseDatabase.getInstance().getReference("conversations");
-        DatabaseReference contactRef = FirebaseDatabase.getInstance().getReference("userDetails");
+        DatabaseReference contactRef = FirebaseDatabase.getInstance().getReference("Users");
 
         String currentUserUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 

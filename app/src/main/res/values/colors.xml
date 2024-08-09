@@ -10,12 +10,13 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="components_color">#69FA92</color>
-    <color name="grey">#808080</color>
+    <color name="grey">#DED0D0</color>
     <color name="image_carview_color">#F7E7CE</color>
     <color name="backgroud_color">#F7E7CE</color>
 
     <color name="button_color">#FFA940</color>
     <color name="cardview_color">#CA924E</color>
+    <color name="delete_btn_color">#FA0404</color>
 
 
 

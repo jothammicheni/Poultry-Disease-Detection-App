@@ -58,7 +58,7 @@ public class DisplayResults extends AppCompatActivity {
 
         if (results == 0) {
             disease = "Coccidiosis";
-            url = "https://www.google.com";
+            url = "https://go.drugbank.com/drugs/DB00415";
         } else if (results == 1) {
             disease = "Healthy";
         } else if (results == 2) {
@@ -66,7 +66,9 @@ public class DisplayResults extends AppCompatActivity {
             url = "https://vetvaco.com.vn/en/lasota-vaccine";
         } else if (results == 3) {
             disease = "Salmonella";
-            url = "https://go.drugbank.com/drugs/DB00415";
+
+            url = "https://www.mayoclinic.org/diseases-conditions/salmonella/diagnosis-treatment/drc-20355335";
+
         }
 
         TVpredictionResults.setText(disease);
@@ -139,10 +141,6 @@ public class DisplayResults extends AppCompatActivity {
                 TVmedicationName.setText(drugName);
                 TVmedicationDescription.setText(drugDescription);
                 IVmedicationImage.setImageResource(R.mipmap.cocci_drug_foreground);
-
-                //
-
-
 
         }
         if (results == 2) {

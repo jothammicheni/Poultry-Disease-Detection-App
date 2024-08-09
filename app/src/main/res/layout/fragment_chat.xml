@@ -6,38 +6,6 @@
     android:background="@color/backgroud_color"
     tools:context=".ui.chats.FragmentChat">
 
-<!--    <LinearLayout-->
-<!--        android:id="@+id/topLayout"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="50dp"-->
-<!--        android:orientation="horizontal"-->
-<!--        android:background="@color/teal_200">-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/TVback"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="1"-->
-<!--            android:drawableStart="@drawable/back_icon"-->
-<!--            android:textAlignment="viewStart"-->
-<!--            android:textColor="@color/white"-->
-<!--            android:textSize="30sp"-->
-<!--            android:textStyle="bold"-->
-<!--            android:layout_marginStart="20dp" />-->
-
-
-<!--        <TextView-->
-<!--            android:id="@+id/TVLogout"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Logout"-->
-<!--            android:textAlignment="center"-->
-<!--            android:textColor="@color/white"-->
-<!--            android:textSize="20sp"-->
-<!--            android:textStyle="bold"-->
-<!--            android:layout_marginEnd="20dp" />-->
-
-<!--    </LinearLayout>-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -49,7 +17,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/TVcategoryDisplay"
             android:textStyle="bold"
-            android:textColor="@color/teal_200"
+            android:textSize="20sp"
+            android:textColor="@color/teal_300"
             android:textAlignment="center"
             />
     </LinearLayout>
@@ -57,9 +26,27 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvContacts"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/LLTitleholder"
         />
+    <org.osmdroid.views.MapView
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rvContacts"
+        android:layout_marginTop="20dp"
+        android:clickable="true" />
+    <!-- Button to get directions -->
+    <Button
+        android:id="@+id/button_get_directions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:text="Get Directions"
+        android:visibility="gone"
+        android:textColor="@color/black"/>
 
 
 

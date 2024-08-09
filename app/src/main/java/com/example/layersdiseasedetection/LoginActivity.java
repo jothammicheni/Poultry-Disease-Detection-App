@@ -30,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     Button btnLoginAsAdmin, btnLoginUser ;
     ProgressBar PBprogress;
 
-    TextView TVforgetpwd;
+    TextView TVforgetpwd,TVsignUp;
 
     FirebaseAuth mAuth;
 
@@ -45,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         editPassword = findViewById(R.id.editPassword);
         PBprogress = findViewById(R.id.progress);
         TVforgetpwd=findViewById(R.id.TVforgotpassword);
+        TVsignUp=findViewById(R.id.TVSignUp);
 
 //        // Load the GIF from the drawable folder using Glide
 // Load the GIF from the drawable folder using Glide
@@ -66,6 +67,13 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(getApplicationContext(), resetPassword.class);
+                startActivity(intent);
+            }
+        });
+        TVsignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(),newuserRegistration.class);
                 startActivity(intent);
             }
         });
@@ -168,7 +176,7 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                         startActivity(intent);
                         PBprogress.setVisibility(View.GONE);
                     }

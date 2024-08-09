@@ -7,6 +7,9 @@
         android:required="false" />
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -17,7 +20,21 @@
         android:roundIcon="@drawable/appicon"
         android:supportsRtl="true"
         android:theme="@style/Theme.LayersDiseaseDetection"
+        tools:replace="android:allowBackup"
         tools:targetApi="31">
+        <activity
+            android:name=".DisplayUserLocation"
+            android:exported="false" />
+        <activity
+            android:name=".DirectionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".NewUserDetailsConfirmation"
+            android:exported="false" />
+        <activity
+            android:name=".newuserRegistration"
+            android:exported="false"
+            android:theme="@style/Theme.LayersDiseaseDetection" />
         <activity
             android:name=".resetPassword"
             android:exported="false" />

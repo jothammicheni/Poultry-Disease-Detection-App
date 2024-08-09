@@ -1,9 +1,9 @@
 package com.example.layersdiseasedetection;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +13,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.layersdiseasedetection.data.UserDetails;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
@@ -39,7 +42,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.contacts_rv_resource, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.newusers_recycler_view, parent, false);
         return new ViewHolder(view);
     }
 
@@ -47,27 +50,58 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         UserDetails userDetails = userList.get(position);
         holder.bind(userDetails);
+
+        // Log latitude and longitude
+        Log.d("ContactsAdapter", "Latitude: " + userDetails.getLatitude());
+        Log.d("ContactsAdapter", "Longitude: " + userDetails.getLongitude());
+
         holder.BtnWhatssap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               holder.openWhatsAppChat(userDetails);
+                holder.openWhatsAppChat(userDetails);
+            }
+        });
 
+        holder.btvVerify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), NewUserDetailsConfirmation.class);
+                intent.putExtra("username", userDetails.getUsername());
+                intent.putExtra("email", userDetails.getUseremail());
+                intent.putExtra("phone", userDetails.getUserphone());
+                intent.putExtra("city", userDetails.getUserCity());
+                intent.putExtra("password", userDetails.getUserpassword());
+                intent.putExtra("latitude", userDetails.getLatitude());
+                intent.putExtra("longitude", userDetails.getLongitude());
+                v.getContext().startActivity(intent);
+            }
+        });
+
+        holder.btndelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseReference contactsRef = FirebaseDatabase.getInstance().getReference("newUserDetails");
+                contactsRef.child(userDetails.getUseremail().replace(".", ",")).removeValue().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(v.getContext(), "User deleted successfully", Toast.LENGTH_SHORT).show();
+                        userList.remove(position);
+                        notifyItemRemoved(position);
+                    } else {
+                        Toast.makeText(v.getContext(), "Failed to delete user", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), ChatActivity.class);
-                intent.putExtra("recipientEmail", userDetails.getUseremail());
-                v.getContext().startActivity(intent);
+                if (listener != null) {
+                    listener.onItemClick(userDetails);
+                }
             }
         });
-
-
     }
-
-
 
     @Override
     public int getItemCount() {
@@ -79,6 +113,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         private TextView textName, textEmail, textPhone;
         private LinearLayout LLUserHolders;
         private ImageButton BtnWhatssap;
+        private AppCompatButton btvVerify, btndelete;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -87,13 +122,14 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
             textPhone = itemView.findViewById(R.id.TVnumber);
             LLUserHolders = itemView.findViewById(R.id.LLUserHolder);
             BtnWhatssap = itemView.findViewById(R.id.BtnWhatssap);
+            btvVerify = itemView.findViewById(R.id.btvVerify);
+            btndelete = itemView.findViewById(R.id.btndelete);
 
-            // Ensure you are getting the correct layout parameters type
             ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) LLUserHolders.getLayoutParams();
-            layoutParams.topMargin = 20; // margin in pixels
-            layoutParams.bottomMargin = 20;
+            layoutParams.topMargin = 5;
+            layoutParams.bottomMargin = 5;
             layoutParams.leftMargin = 5;
-            layoutParams.rightMargin = 5; // Add right margin if needed
+            layoutParams.rightMargin = 5;
             LLUserHolders.setLayoutParams(layoutParams);
         }
 
@@ -104,37 +140,31 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         }
 
         public void openWhatsAppChat(UserDetails userDetails) {
+            Context context = itemView.getContext();
+            String phoneNumber = userDetails.getUserphone();
+
             try {
-                // Format the phone number to the required format
-                String formattedNumber = userDetails.getUserphone().replaceFirst("0", "+254");
-
-                // Create the URI for WhatsApp
-               // String uri = "https://wa.me/" + formattedNumber;
-                String message = "Hello";
-                String uri = "https://wa.me/" + formattedNumber + "?text=" + Uri.encode(message);
-
-                //String uri = "https://api.whatsapp.com/send?phone=" + formattedNumber + "&text=" + Uri.encode(message);
-
-
-                // Create the intent
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(uri));
-
-                // Set the package to ensure the intent opens WhatsApp
-                intent.setPackage("com.whatsapp");
-
-                itemView.getContext().startActivity(intent);
-                // Verify that there is an app to receive the intent
-                if (itemView.getContext().getPackageManager().resolveActivity(intent, 0) != null) {
-                    itemView.getContext().startActivity(intent);
+                Uri uri = Uri.parse("https://api.whatsapp.com/send?phone=" + phoneNumber);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                if (intent.resolveActivity(context.getPackageManager()) == null) {
+                    context.startActivity(intent);
                 } else {
-                   // Toast.makeText(itemView.getContext(), "WhatsApp not installed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "WhatsApp is not installed on your device", Toast.LENGTH_SHORT).show();
+                    sendSMS(context, phoneNumber);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                //Toast.makeText(itemView.getContext(), "Error opening WhatsApp", Toast.LENGTH_SHORT).show();
             }
         }
 
+        private void sendSMS(Context context, String phoneNumber) {
+            try {
+                Uri uri = Uri.parse("smsto:" + phoneNumber);
+                Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
+                context.startActivity(intent);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

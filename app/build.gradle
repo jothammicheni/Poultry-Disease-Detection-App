@@ -3,7 +3,6 @@ plugins {
     id 'com.google.gms.google-services'
 }
 
-
 android {
     namespace 'com.example.layersdiseasedetection'
     compileSdk 34
@@ -67,7 +66,26 @@ dependencies {
 //        exclude(group = "com.android.support")
 //    }
 
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
+
+    // Google Maps dependencies
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    implementation 'com.google.maps:google-maps-services:2.1.2'
+    implementation 'com.google.maps.android:android-maps-utils:2.3.0'
+
+// Retrofit for networking
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+
+    // Gson converter for JSON serialization
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    // OkHttp library for networking
+    implementation 'com.squareup.okhttp3:okhttp:4.11.0'
+    // OkHttp logging interceptor
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.11.0'
 
 
-
+    implementation "org.osmdroid:osmdroid-android:6.1.10"
+    implementation "org.osmdroid:osmdroid-wms:6.1.10"
+    implementation "org.osmdroid:osmdroid-mapsforge:6.1.10"
+    implementation "org.osmdroid:osmdroid-geopackage:6.1.10"
 }

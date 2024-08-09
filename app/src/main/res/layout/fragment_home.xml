@@ -133,6 +133,7 @@
                 android:textStyle="bold"
                 android:layout_marginTop="20dp"
                 android:visibility="gone"
+                android:textSize="20sp"
                 android:id="@+id/TVresults"
                 />
 

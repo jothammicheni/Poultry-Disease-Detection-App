@@ -2,8 +2,6 @@ package com.example.layersdiseasedetection;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,7 +17,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -28,7 +25,7 @@ import java.util.List;
 public class DisplayUsers extends AppCompatActivity {
 
     private RecyclerView contactsRecyclerView;
-    private DatabaseReference contactsRef;
+    private DatabaseReference contactsRef, usersRef;
     private ContactsAdapter contactsAdapter;
 
     TextView TVbackIcon, TVlogout;
@@ -37,21 +34,26 @@ public class DisplayUsers extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
-    private String currentUserCategory;
-    private String currentUserCity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_users);
+
+        // Initialize views
         TVDisplaycategory = findViewById(R.id.TVcategoryDisplay);
         TVlogout = findViewById(R.id.TVLogout);
         TVbackIcon = findViewById(R.id.TVback);
+
+        // Initialize Firebase
         initializeFirebase();
+
+        // Setup RecyclerView
         setupRecyclerView();
 
-        if (currentUser != null) {
-            retrieveUserCategory();
+        // Check if user is logged in
+        if (currentUser == null) {
+            refreshUserList(); // Load all users
         } else {
             Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
             // Optionally, redirect to login screen
@@ -61,7 +63,8 @@ public class DisplayUsers extends AppCompatActivity {
     private void initializeFirebase() {
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
-        contactsRef = FirebaseDatabase.getInstance().getReference("userDetails");
+        contactsRef = FirebaseDatabase.getInstance().getReference("newUserDetails");
+        usersRef = FirebaseDatabase.getInstance().getReference("Users");
     }
 
     private void setupRecyclerView() {
@@ -71,72 +74,45 @@ public class DisplayUsers extends AppCompatActivity {
         contactsAdapter = new ContactsAdapter(userList);
         contactsRecyclerView.setAdapter(contactsAdapter);
 
+        // Set item click listener
         contactsAdapter.setOnItemClickListener(user -> {
-            Log.d("DisplayUsers", "Clicked on user: " + user.getUsername());
-            Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
-            intent.putExtra("recipientEmail", user.getUseremail());
+            Intent intent = new Intent(getApplicationContext(), NewUserDetailsConfirmation.class);
+            intent.putExtra("username", user.getUsername());
+            intent.putExtra("email", user.getUseremail());
+            intent.putExtra("phone", user.getUserphone());
+            intent.putExtra("city", user.getUserCity());
+            intent.putExtra("password", user.getUserpassword());
+            intent.putExtra("latitude", user.getLatitude());
+            intent.putExtra("longitude", user.getLongitude());
             startActivity(intent);
         });
 
+        // Back button listener
         TVbackIcon.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            Intent intent = new Intent(getApplicationContext(),AdminPanel.class);
             startActivity(intent);
         });
 
+        // Logout button listener
         TVlogout.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
-        });
-    }
-
-    private void retrieveUserCategory() {
-        DatabaseReference currentUserRef = contactsRef.child(currentUser.getUid());
-        currentUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    currentUserCategory = snapshot.child("userCategory").getValue(String.class);
-                    currentUserCity = snapshot.child("userCity").getValue(String.class);
-                    Log.d("DisplayUsers", "Current city: " + currentUserCity);
-                    Log.d("city", "Current user city: " + currentUserCity);
-
-                    refreshUserList();
-                } else {
-                    Log.d("DisplayUsers", "User category not found");
-                    Toast.makeText(DisplayUsers.this, "User category not found", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(DisplayUsers.this, "Failed to load user data", Toast.LENGTH_SHORT).show();
-            }
+            Toast.makeText(DisplayUsers.this, "Logged out successfully", Toast.LENGTH_SHORT).show();
+            // Optionally, redirect to login screen
         });
     }
 
     private void refreshUserList() {
-        if (currentUserCategory == null || currentUserCategory.isEmpty() || currentUserCity == null || currentUserCity.isEmpty()) {
-            return;
-        }
-
-        String oppositeCategory = currentUserCategory.equals("Farmer") ? "Veterinary Officer" : "Farmer";
-        Query userQuery = contactsRef.orderByChild("userCategory").equalTo(oppositeCategory);
-        userQuery.addValueEventListener(new ValueEventListener() {
+        contactsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                userList.clear();
-                for (DataSnapshot contactSnapshot : snapshot.getChildren()) {
-                    UserDetails userInfo = contactSnapshot.getValue(UserDetails.class);
-                    if (userInfo != null && userInfo.getUserCity().equals(currentUserCity)) {
-                        userList.add(userInfo);
+                List<UserDetails> tempList = new ArrayList<>();
+                for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                    UserDetails userInfo = userSnapshot.getValue(UserDetails.class);
+                    if (userInfo != null) {
+                        tempList.add(userInfo);
                     }
                 }
-
-                if (!userList.isEmpty()) {
-                    TVDisplaycategory.setText(oppositeCategory + "s in " + currentUserCity);
-                } else {
-                    TVDisplaycategory.setText("No " + oppositeCategory + "s found in " + currentUserCity);
-                }
-                contactsAdapter.notifyDataSetChanged();
+                checkUsersAgainstDatabase(tempList);
             }
 
             @Override
@@ -145,4 +121,39 @@ public class DisplayUsers extends AppCompatActivity {
             }
         });
     }
+
+    private void checkUsersAgainstDatabase(List<UserDetails> tempList) {
+        userList.clear();
+        for (UserDetails userInfo : tempList) {
+            usersRef.orderByChild("email").equalTo(userInfo.getUseremail()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (!snapshot.exists()) {
+                        userList.add(userInfo);
+                    }
+
+                    // Check if all users have been processed
+                    if (userList.size() == tempList.size()) {
+                        updateUI();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(DisplayUsers.this, "Failed to check email in Users database", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+    private void updateUI() {
+        // Update UI
+        if (!userList.isEmpty()) {
+            TVDisplaycategory.setText("All Users");
+        } else {
+            TVDisplaycategory.setText("No users found");
+        }
+        contactsAdapter.notifyDataSetChanged();
+    }
+
 }

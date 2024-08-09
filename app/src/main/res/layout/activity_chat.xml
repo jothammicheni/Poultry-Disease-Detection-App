@@ -18,7 +18,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:drawableStart="@drawable/back_icon"
+            android:text="."
             android:textAlignment="viewStart"
             android:textColor="@color/white"
             android:textSize="30sp"

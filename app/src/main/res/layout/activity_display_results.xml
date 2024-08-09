@@ -157,6 +157,7 @@
                     android:layout_margin="20dp"
                     android:backgroundTint="@color/teal_200"
                     android:text="calculate Spread"
+                    android:visibility="gone"
                     android:textStyle="bold" />
 
                 <Button
@@ -166,6 +167,7 @@
                     android:layout_margin="20dp"
                     android:backgroundTint="@color/teal_200"
                     android:text="Contact A vet"
+                    android:visibility="gone"
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>

@@ -11,11 +11,11 @@
         android:label="Disease Prediction"
         tools:layout="@layout/fragment_home" />
 
-    <fragment
-        android:id="@+id/nav_feeds"
-        android:name="com.example.layersdiseasedetection.ui.feedFomulation.Feed_FormulationFragment"
-        android:label="Feed Formulation"
-        tools:layout="@layout/fragment_feed__formulation" />
+<!--    <fragment-->
+<!--        android:id="@+id/nav_feeds"-->
+<!--        android:name="com.example.layersdiseasedetection.ui.feedFomulation.Feed_FormulationFragment"-->
+<!--        android:label="Feed Formulation"-->
+<!--        tools:layout="@layout/fragment_feed__formulation" />-->
 
     <fragment
         android:id="@+id/nav_profile"

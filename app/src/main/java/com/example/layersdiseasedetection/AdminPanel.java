@@ -55,7 +55,7 @@ public class AdminPanel extends AppCompatActivity {
         btnaddnewfarmer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(getApplicationContext(),RegisterActivity.class);
+                Intent intent=new Intent(getApplicationContext(), DisplayUsers.class);
                 startActivity(intent);
             }
         });
